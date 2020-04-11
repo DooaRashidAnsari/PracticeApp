@@ -170,9 +170,10 @@ export default class Database {
         DB.transaction((tx) => {
           tx.executeSql('SELECT * FROM User WHERE Name = ? AND Password = ? ', [username, password]).then(([tx, results]) => {
             len = results.rows.length;
-            console.log(len)
-            if(len > 0)
-                 execute()
+            console.log(len)                
+            let isFound = false
+            if(len>0) isFound = true
+            execute(isFound)
           });
         }).then((result) => {
           this.closeDatabase(DB);

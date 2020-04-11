@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Text, Button } from "react-native";
+import { View, Text, Button ,Alert} from "react-native";
 import styles from './styleslogin.js'
-import { Component, TextInput } from 'react-native'
+import { TextInput } from 'react-native'
 import strings from '../resources/Strings'
 import Colors from "../resources/Colors.js";
 import Database from '../Database';
@@ -10,10 +10,18 @@ const db = new Database();
 
 
 export default class Login extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {username:"",password:""}
+    }
     loginUser() {
         const { username, password } = this.state;
-          var result = db.searchUser(username,password,()=>{this.props.navigation.navigate('Todo')})
-          //if(result)
+        db.searchUser(username,password,(isFound)=>{
+              
+              if(isFound)this.props.navigation.navigate('Todo')
+              else  Alert.alert(strings.userNotExist);
+           
+            })
             
     }
 

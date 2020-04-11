@@ -11,7 +11,9 @@ const String = {
     addToDo:'Add To Do',
     enterWork:'Enter Work',
     toDoAdded:'To do Added',
-    home:'Home'
+    home:'Home',
+    userNotExist:'User does not exist',
+    enterValues:'Please enter values'
 }
 
 export default String

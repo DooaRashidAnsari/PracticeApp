@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Text, View,FlatList } from 'react-native';
-import styles from './styleslogin.js'
+import styles from './styletodo.js'
 import strings from '../resources/Strings'
 import Database from '../Database';
+import Sizes from '../resources/Sizes.js';
 const db = new Database();
 
 export default class AddTodo extends React.Component {
@@ -30,10 +31,11 @@ export default class AddTodo extends React.Component {
     render() {  
         return (  
             <View style={styles.container}>  
-                <FlatList  
+                <FlatList
+                    style = {{flex: 1 , width:'100%',paddingStart:Sizes.Margin.small,paddingEnd:Sizes.Margin.small}}  
                     data={this.state.data}  
                     renderItem={({item}) =>  
-                        <Text style={styles.item}  
+                        <Text style={styles.itemText}  
                               onPress={this.getListViewItem.bind(this, item)}>{item.work}</Text>}  
                     ItemSeparatorComponent={this.renderSeparator}  
                 />  

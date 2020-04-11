@@ -1,5 +1,5 @@
 import React from 'react'
-import { View,Text,Button } from "react-native";
+import { View,Text,Button ,Alert} from "react-native";
 import styles from './styleslogin.js'
 import { Component, TextInput } from 'react-native'
 import strings from '../resources/Strings'
@@ -9,6 +9,11 @@ const db = new Database();
 
 
 export default class SignUp extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {username : '', password : ''}
+    }
+    
     render() {
         return <View style={styles.container}>
             <Text style={styles.textHeading}>
@@ -42,6 +47,11 @@ export default class SignUp extends React.Component {
 
     saveUser(){
         const { username, password } = this.state;
-        db.insertUser(username,password)
+        if(username==''||password==''){
+            Alert.alert(strings.enterValues);
+        }else{
+            db.insertUser(username,password)
+        }
+        
     }
 }
