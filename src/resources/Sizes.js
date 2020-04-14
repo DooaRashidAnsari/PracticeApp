@@ -10,6 +10,11 @@ const Sizes = {
       large:20
   },
 
+  General:{
+    dividerSize:1,
+    activeOpacity:0.8
+  }
+
 }
 
 export default Sizes

@@ -5,6 +5,7 @@ import Splash from './screens/Splash'
 import Login from './screens/Login'
 import SignUp from './screens/SignUp'
 import Todo from './screens/Todo'
+import updateTodo from './screens/UpdateTodo'
 import Colors from './resources/Colors'
 import Strings from './resources/Strings'
 import Names from './screens/names'
@@ -37,6 +38,10 @@ return (<NavigationContainer>
              component={Todo}
             >
             
+            </Stack.Screen>
+            <Stack.Screen name= {Names.update}
+             component={updateTodo}
+            >
             </Stack.Screen>
             
         </Stack.Navigator>

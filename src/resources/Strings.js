@@ -13,7 +13,10 @@ const String = {
     toDoAdded:'To do Added',
     home:'Home',
     userNotExist:'User does not exist',
-    enterValues:'Please enter values'
+    enterValues:'Please enter values',
+    updateTodo:'Update To Do',
+    enterNewValue:'Enter new value',
+    updatedValue:'Work updated'
 }
 
 export default String

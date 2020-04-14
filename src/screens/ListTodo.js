@@ -4,6 +4,8 @@ import styles from './styletodo.js'
 import strings from '../resources/Strings'
 import Database from '../Database';
 import Sizes from '../resources/Sizes.js';
+import Names from './names'
+
 const db = new Database();
 
 export default class AddTodo extends React.Component {
@@ -23,8 +25,9 @@ export default class AddTodo extends React.Component {
         );  
     };  
   
-    getListViewItem = (item) => {  
-        Alert.alert(item.work);  
+    getListViewItem = (item) => {
+        this.props.navigation.navigate(Names.update,{itemId:item.key})  
+        //Alert.alert(item.work);  
     }  
   
     
@@ -51,7 +54,9 @@ export default class AddTodo extends React.Component {
         db.listWorks().then(result=>{
             console.log(result)
             this.setState({data:result})
-            
+            console.log('------------------------Closing DB-----------------------------------')
+            this.db.closeDatabase(DB);
+          
         })  
     }
 

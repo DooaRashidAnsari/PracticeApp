@@ -2,7 +2,8 @@ const Names = {
    splash:'Splash',
    login:'Login',
    signUp:'SignUp',
-   todo:'Todo'
+   todo:'Todo',
+   update:'UpdateTodo'
    
 }
 

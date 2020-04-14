@@ -5,6 +5,8 @@ import { TextInput } from 'react-native'
 import strings from '../resources/Strings'
 import Colors from "../resources/Colors.js";
 import Database from '../Database';
+import Names from './names'
+
 const db = new Database();
 
 
@@ -18,7 +20,7 @@ export default class Login extends React.Component {
         const { username, password } = this.state;
         db.searchUser(username,password,(isFound)=>{
               
-              if(isFound)this.props.navigation.navigate('Todo')
+              if(isFound)this.props.navigation.navigate(Names.todo)
               else  Alert.alert(strings.userNotExist);
            
             })

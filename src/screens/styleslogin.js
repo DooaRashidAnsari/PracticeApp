@@ -6,7 +6,9 @@ const style = StyleSheet.create({
     container:{
       flex:1,
       flexDirection:'column',
-      alignItems:'center'
+      alignItems:'center',
+      paddingStart:20,
+      paddingEnd:20
     },
     textInput:{
       fontSize:Sizes.Font.medium,

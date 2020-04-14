@@ -53,7 +53,7 @@ export default class Database {
   createTables(db) {
     db.transaction((tx) => {
       tx.executeSql('CREATE TABLE IF NOT EXISTS User (Name,Password)');
-      tx.executeSql('CREATE TABLE IF NOT EXISTS Todo (Work)');
+      tx.executeSql('CREATE TABLE IF NOT EXISTS Todo (work_id INTEGER PRIMARY KEY AUTOINCREMENT,Work)');
     }).then(() => {
       console.log("Table created successfully");
       this.closeDatabase(db)
@@ -72,7 +72,7 @@ export default class Database {
     )
       .then(DB => {
         DB.transaction((tx) => {
-          tx.executeSql('INSERT INTO Todo VALUES (?)', [work]).then(([tx, results]) => {
+          tx.executeSql('INSERT INTO Todo (Work) VALUES (?)', [work]).then(([tx, results]) => {
             
           });
         }).then((result) => {
@@ -103,21 +103,23 @@ export default class Database {
       )
         .then(DB => {
           DB.transaction((tx) => {
-            tx.executeSql('SELECT Work FROM Todo', []).then(([tx,results]) => {
+            tx.executeSql('SELECT Work,work_id FROM Todo').then(([tx,results]) => {
               console.log("Query completed");
               var len = results.rows.length;
               for (let i = 0; i < len; i++) {
                 let row = results.rows.item(i);
                 console.log(`Work: ${row.Work}`)
-                const {Work} = row;
+                const {Work,work_id} = row;
                 works.push({
-                  key:i,
+                  key:work_id,
                   work :Work
                 });
               }
               resolve(works);
             });
           }).then((result) => {
+            console.log('-------------55-----------Closing DB-------------------55----------------')
+            
             this.closeDatabase(db);
           }).catch((err) => {
             console.log(err);
@@ -157,6 +159,37 @@ export default class Database {
 
 
   }
+
+  updateWork(id, newValue) {
+    console.log(id)
+    console.log(newValue)
+    SQLite.openDatabase(
+      database_name,
+      database_version,
+      database_displayname,
+      database_size
+    ) .then(DB => {
+        DB.transaction((tx) => {
+          console.log('updating db')
+        //  SELECT Work,work_id FROM Todo
+          tx.executeSql('UPDATE Todo SET Work = ? WHERE work_id = ?', [newValue, id.itemId]).then(([tx, results]) => {
+            resolve(results);
+          });
+        }).then((result) => {
+          this.closeDatabase(DB);
+          Alert.alert(strings.updatedValue);
+
+        }).catch((err) => {
+          console.log(err);
+        });
+
+      }).catch(error => {
+        console.log(error);
+      });
+
+
+  }
+
 
   searchUser(username,password,execute){
     var len = 0
