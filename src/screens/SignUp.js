@@ -8,6 +8,7 @@ import InputField from '../components/InputField.js'
 import Database from '../Database';
 import CustomButton from '../components/CustomButton.js';
 import CustomPicker from '../components/CustomPicker.js';
+import CustomDatePicker from '../components/CustomDatePicker.js';
 const db = new Database();
 
 
@@ -38,6 +39,7 @@ export default class SignUp extends React.Component {
             <CustomPicker icon='venus-mars'
                 style={styles.pickerStyle}
             ></CustomPicker>
+            <CustomDatePicker icon='calendar'></CustomDatePicker>
 
 
             <CustomButton
