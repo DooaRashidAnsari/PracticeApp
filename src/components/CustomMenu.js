@@ -10,6 +10,8 @@ import names from '../screens/names'
 import PropTypes from 'prop-types';
 import Database from '../Database';
 import { StackActions } from '@react-navigation/native';
+import Session from '../Session'
+const session = new Session()
 
 const db = new Database();
 
@@ -17,14 +19,20 @@ const db = new Database();
 
 class CustomMenu extends React.PureComponent {
     static propsType = {
-        navigation:PropTypes.navigation,
-        clearList:PropTypes.func
-      }
-      
+        navigation: PropTypes.navigation,
+        clearList: PropTypes.func
+    }
 
-   constructor(props){
-       super(props)
-   }
+
+    constructor(props) {
+        super(props)
+    }
+
+    componentDidMount(){
+        session.getUserId().then(result=>{
+            this.setState({userId:result})
+        })
+    }
 
     _menu = null;
 
@@ -41,11 +49,34 @@ class CustomMenu extends React.PureComponent {
     };
     deleteAllTodo() {
         this.hideMenu()
-        db.deleteAll().then(result => {
+        db.deleteAll(this.state.userId).then(result => {
             this.props.navigation.dispatch(StackActions.replace(names.todo));
             //this.props.clearList()           
         })
     }
+
+    removeUserId() {
+        this.hideMenu()
+        session.deleteSession().then(result => {
+            if (result)
+                this.props.navigation.dispatch(StackActions.replace(names.login));
+
+        })
+    }
+
+    clearCache() {
+        this.hideMenu()
+        session.deleteSession().then(result => {
+            db.deleteAllTodays(this.state.userId).then(result=>{
+                if (result)
+                this.props.navigation.dispatch(StackActions.replace(names.login));
+
+            })
+            
+            
+        })
+    }
+
 
     render() {
         return (
@@ -59,14 +90,14 @@ class CustomMenu extends React.PureComponent {
                         this.props.navigation.navigate(names.allTodo)
                     }}> {strings.listAll}</MenuItem>
                     <MenuItem onPress={
-                       this.deleteAllTodo.bind(this)            
-                    
+                        this.deleteAllTodo.bind(this)
+
                     }>{strings.deleteAll}</MenuItem>
-                    <MenuItem onPress={this.hideMenu} disabled>
+                    <MenuItem onPress={this.clearCache.bind(this)}>
                         {strings.clearCache}
                     </MenuItem>
                     <MenuDivider />
-                    <MenuItem onPress={this.hideMenu}>{strings.logout}</MenuItem>
+                    <MenuItem onPress={this.removeUserId.bind(this)}>{strings.logout}</MenuItem>
                 </Menu>
             </View>
         );

@@ -11,19 +11,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import Header from '../components/Header.js';
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import Session from '../Session'
 
 const db = new Database();
-const getUserId = async () => {
-  let userId = '';
-  try {
-    userId = await AsyncStorage.getItem('userId') || 'none';
-  } catch (error) {
-    // Error retrieving data
-    console.log(error.message);
-  }
-  return userId;
-}
+const session = new Session()
 
 export default class AddTodo extends React.Component {
   constructor(props) {
@@ -183,7 +174,7 @@ export default class AddTodo extends React.Component {
   }
 
   componentDidMount() {
-    getUserId().then(result => {
+    session.getUserId().then(result => {
         console.log('getting userid')
         console.log(result+'')
         this.setState({userId:result+''})

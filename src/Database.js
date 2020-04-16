@@ -3,6 +3,9 @@ import { Alert } from 'react-native'
 import strings from './resources/Strings'
 import moment from 'moment';
 import AsyncStorage from '@react-native-community/async-storage';
+import Session from './Session'
+const session = new Session()
+
 
 
 SQLite.DEBUG(true);
@@ -13,14 +16,6 @@ const database_displayname = "SQLite React Offline Database";
 const database_size = 200000;
 
 
-const saveUserId = async userId => {
-  try {
-    await AsyncStorage.setItem('userId', userId+'');
-  } catch (error) {
-    // Error retrieving data
-    console.log(error.message);
-  }
-};
 
 export default class Database {
 
@@ -204,7 +199,7 @@ export default class Database {
         .then(DB => {
           DB.transaction((tx) => {
             tx.executeSql('INSERT INTO User (Name,Password) VALUES (?,?)', [username, password]).then(([tx, results]) => {
-              saveUserId(results.insertId).then(() => {
+              session.saveUserId(results.insertId).then(() => {
                 console.log('create result')
                 console.log(results)
                 resolve(results.insertId);   
@@ -293,7 +288,7 @@ export default class Database {
 
   }
 
-  deleteAll() {
+  deleteAll(userId) {
     return new Promise((resolve) => {
       SQLite.openDatabase(
         database_name,
@@ -304,7 +299,38 @@ export default class Database {
         DB.transaction((tx) => {
           console.log('deleting all value')
           //  SELECT Work,work_id FROM Todo
-          tx.executeSql('DELETE FROM Todo').then(([tx, results]) => {
+          tx.executeSql('DELETE FROM Todo WHERE user_id = ?',[userId]).then(([tx, results]) => {
+            resolve(results);
+          });
+        }).then((result) => {
+          this.closeDatabase(DB);
+          //Alert.alert(strings.updatedValue);
+
+        }).catch((err) => {
+          console.log(err);
+        });
+
+      }).catch(error => {
+        console.log(error);
+      });
+
+    });
+
+
+  }
+
+  deleteAllTodays(userId) {
+    return new Promise((resolve) => {
+      SQLite.openDatabase(
+        database_name,
+        database_version,
+        database_displayname,
+        database_size
+      ).then(DB => {
+        DB.transaction((tx) => {
+          console.log('deleting all value')
+          //  SELECT Work,work_id FROM Todo
+          tx.executeSql('DELETE FROM Todo WHERE user_id = ? AND Date = ?',[userId,moment().format('LL')]).then(([tx, results]) => {
             resolve(results);
           });
         }).then((result) => {
@@ -326,7 +352,6 @@ export default class Database {
 
 
 
-
   searchUser(username, password, execute) {
     var len = 0
 
@@ -345,7 +370,7 @@ export default class Database {
             if (len > 0) isFound = true
             console.log('Saved userid')
             //console.log(results.rows.item(0).user_id)
-            saveUserId(results.rows.item(0).user_id).then(() => {
+            session.saveUserId(results.rows.item(0).user_id).then(() => {
               //console.log('after saved user'
              // )
               //console.log(result+'')

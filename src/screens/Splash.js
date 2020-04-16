@@ -6,6 +6,8 @@ import Database from '../Database';
 import Names from '../screens/names'
 import { StackActions } from '@react-navigation/native';
 const db = new Database();
+import Session from '../Session'
+const session = new Session()
 
 export default class Splash extends React.Component {
   constructor() {
@@ -53,7 +55,7 @@ export default class Splash extends React.Component {
           style={{
             width: 227,
             height: 200,
-            marginTop:150,
+            marginTop: 150,
             transform: [{ rotate: spin }]
           }}
           source={{ uri: 'https://s3.amazonaws.com/media-p.slid.es/uploads/alexanderfarennikov/images/1198519/reactjs.png' }}
@@ -66,6 +68,11 @@ export default class Splash extends React.Component {
   componentDidMount() {
     db.initDB()
     this.animate()
+    session.getUserId().then(result => {
+      console.log('getting userid')
+      console.log(result + '')
+      this.setState({ userId: result + '' })
+    })
 
   }
 
@@ -91,7 +98,11 @@ export default class Splash extends React.Component {
       createAnimation(this.animatedValue3, 1000, Easing.ease, 2000)
     ]).start(() => {
       setTimeout(() => {
-        this.props.navigation.dispatch(StackActions.replace( Names.login));
+        if (this.state.userId == 'none')
+          this.props.navigation.dispatch(StackActions.replace(Names.login));
+        else
+          this.props.navigation.dispatch(StackActions.replace(Names.todo));
+
       }, 4000)
     })
     this.spin()
