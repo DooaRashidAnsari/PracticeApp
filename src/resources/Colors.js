@@ -10,7 +10,9 @@ const Colors = {
   fieldColor:'#edeaea',
   fieldBackColor:'#363636',
   placeholdeColor:'#e5e3e3',
-  buttonColor:'#ff008c'
+  buttonColor:'#ff008c',
+  headerColor:'#bc3f72',
+  errorRed:'#a80101'
 }
 
 export default Colors

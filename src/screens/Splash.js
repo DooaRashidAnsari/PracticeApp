@@ -79,6 +79,7 @@ export default class Splash extends React.Component {
         {
           toValue: 1,
           duration,
+          useNativeDriver: false,
           easing,
           delay
         }

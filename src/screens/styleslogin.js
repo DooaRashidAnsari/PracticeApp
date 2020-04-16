@@ -1,44 +1,50 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 import Sizes from '../resources/Sizes'
 import Colors from '../resources/Colors'
+import stylegeneral from '../screens/generalstyle'
+
 
 const style = StyleSheet.create({
-    container:{
-      flex:1,
-      flexDirection:'column',
-      alignItems:'center',
-      paddingStart:20,
-      paddingEnd:20
-    },
-    textInput:{
-      fontSize:Sizes.Font.medium,
-      color:Colors.textColorSecondary,
-      borderColor:Colors.primaryColor,
-      borderWidth:1,
-      marginBottom:Sizes.Margin.medium,
-      width:'90%'
+  container:{
+    ...stylegeneral.container
+  },
+  
+  textInput: {
+    fontSize: Sizes.Font.medium,
+    color: Colors.textColorSecondary,
+    borderColor: Colors.primaryColor,
+    borderWidth: 1,
+    marginBottom: Sizes.Margin.medium,
+    width: '90%'
 
-    },
-    bottomText:{
-      fontSize:Sizes.Font.small,
-      color:Colors.primaryColor,
-      marginTop:Sizes.Margin.large,
-      textDecorationLine: 'underline'
-    },
-    textHeading: {
-        fontSize: Sizes.Font.large,
-        color: Colors.textHeadingColor
-        ,marginTop:Sizes.Margin.large,
-        marginBottom:Sizes.Margin.large
-    
-      },
+  },
+  passwordStyle: {
+    marginTop: Sizes.Margin.medium
+  },
+  buttonSave: {
+    marginTop: Sizes.Margin.medium
+  },
+  bottomText: {
+    fontSize: Sizes.Font.small,
+    color: Colors.headerColor,
+    marginTop: Sizes.Margin.large,
+    textDecorationLine: 'underline'
+  },
+  textHeading: {
+    fontSize: 40,
+    fontWeight:'bold',
+    color: Colors.headerColor
+    , marginTop: Sizes.Margin.large,
+    marginBottom: Sizes.Margin.large
 
-      buttonStyle:{
-        width:'90%'
-      }
-      
-      
+  },
+
+  buttonStyle: {
+    width: '90%'
   }
+
+
+}
 )
 
 export default style

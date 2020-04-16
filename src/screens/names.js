@@ -3,7 +3,8 @@ const Names = {
    login:'Login',
    signUp:'SignUp',
    todo:'Todo',
-   update:'UpdateTodo'
+   update:'UpdateTodo',
+   allTodo:'allTodo'
    
 }
 

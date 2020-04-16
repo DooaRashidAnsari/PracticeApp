@@ -4,7 +4,7 @@ import Colors from '../resources/Colors'
 
 const style = StyleSheet.create({
     opacityView: {
-        flexDirection: 'row',
+        height:45,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: Colors.buttonColor,

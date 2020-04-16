@@ -6,6 +6,7 @@ import Login from './screens/Login'
 import SignUp from './screens/SignUp'
 import Todo from './screens/Todo'
 import updateTodo from './screens/UpdateTodo'
+import allTodo from './screens/ListAllTodo'
 import Colors from './resources/Colors'
 import Strings from './resources/Strings'
 import Names from './screens/names'
@@ -17,6 +18,7 @@ function MainNav() {
 return (<NavigationContainer>
         <Stack.Navigator
             initialRouteName={Names.splash}
+            headerMode = 'none'
         >
             <Stack.Screen name={Names.splash}
              component={Splash}
@@ -41,6 +43,10 @@ return (<NavigationContainer>
             </Stack.Screen>
             <Stack.Screen name= {Names.update}
              component={updateTodo}
+            >
+            </Stack.Screen>
+            <Stack.Screen name= {Names.allTodo}
+             component={allTodo}
             >
             </Stack.Screen>
             

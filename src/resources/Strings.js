@@ -16,7 +16,21 @@ const String = {
     enterValues:'Please enter values',
     updateTodo:'Update To Do',
     enterNewValue:'Enter new value',
-    updatedValue:'Work updated'
+    updatedValue:'Work updated',
+    enterDesc:'Enter description',
+    cancel:'Cancel',
+    update:'Update',
+    description:'Description',
+    toDoList:'To Do List',
+    listAll:'List All',
+    deleteAll:'Delete All',
+    clearCache:'Clear Cache',
+    logout:'Logout',
+    date:'DATE:',
+    listAllTodo:'List Of All To Do',
+    enterUserName:'*Please enter username',
+    enterPassword:'*Please enter password',
+    enterWork:'*Please enter work'
 }
 
 export default String

@@ -17,14 +17,23 @@ const style = StyleSheet.create({
 
     },
       inputPassword:{
-          marginTop:Sizes.Margin.medium
+          marginTop:Sizes.Margin.medium,
       },
       buttonSave:{
         marginTop:Sizes.Margin.medium
     },
     pickerStyle:{
       marginTop:Sizes.Margin.medium
-    }
+    },
+    textHeading: {
+      fontSize: 40,
+      fontWeight:'bold',
+      color: Colors.headerColor
+      , marginTop: Sizes.Margin.large,
+      marginBottom: Sizes.Margin.large
+  
+    },
+  
     
       
       

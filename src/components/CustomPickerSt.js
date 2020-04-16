@@ -24,7 +24,7 @@ const style = StyleSheet.create({
     textPicker:{
         fontSize:Sizes.Font.medium,
         color:Colors.fieldColor,
-        width:'90%',
+        width:'100%',
         justifyContent:'center',
         alignContent:'center',
         marginStart:10
@@ -34,10 +34,10 @@ const style = StyleSheet.create({
         fontSize:30,
         color:Colors.fieldColor,
         marginBottom:Sizes.Margin.medium,
-        marginLeft:20,
+        marginLeft:15,
         alignItems:'center',
         marginTop:20,
-        marginRight:10
+        marginRight:15
                
       },
       pickerItemStyle:{

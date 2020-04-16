@@ -18,7 +18,7 @@ export default class CustomDatePicker extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { isVisible: false, text: '12-03-2020' }
+        this.state = { isVisible: false, text: Moment().format('LL') }
     }
 
     static propsType = {
@@ -40,7 +40,7 @@ export default class CustomDatePicker extends Component {
                     activeOpacity={Sizes.activeOpacity}
                     onPress={() => { this.setState({ isVisible: true }) }}
                 >
-                    <Text style={styles.textInput}>{Moment(this.state.text).format('d MMM')} </Text>
+                    <Text style={styles.textInput}>{Moment(this.state.text).format('LL')} </Text>
                 </TouchableOpacity>
                 {this.state.isVisible&&<DateTimePicker
                     testID="dateTimePicker"

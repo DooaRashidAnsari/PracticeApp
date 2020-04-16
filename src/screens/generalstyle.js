@@ -12,6 +12,10 @@ const style = StyleSheet.create({
       justifyContent:'center',
       backgroundColor:Colors.backgroundScreen
     },
+    topcontainer:{
+      flex:1,
+      backgroundColor:Colors.backgroundScreen
+    },
    }
 )
 

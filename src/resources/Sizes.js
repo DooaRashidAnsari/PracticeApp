@@ -12,7 +12,8 @@ const Sizes = {
 
   General:{
     dividerSize:1,
-    activeOpacity:0.8
+    activeOpacity:0.8,
+    fontAwsomeLarge:20
   }
 
 }
