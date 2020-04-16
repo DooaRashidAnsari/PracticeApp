@@ -50,6 +50,11 @@ const style = StyleSheet.create({
         width: '100%',
         flex: 1,
     },
+    itemStyleDone: {
+        backgroundColor: Colors.done,
+        width: '100%',
+        flex: 1,
+    },
     itemTextStyle: {
         flex: 0.9,
         fontSize: Sizes.Font.medium,

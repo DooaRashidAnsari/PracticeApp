@@ -43,6 +43,7 @@ class CustomMenu extends React.PureComponent {
     hideMenu = () => {
         this._menu.hide();
     };
+    
 
     showMenu = () => {
         this._menu.show();

@@ -10,6 +10,8 @@ import Sizes from '../resources/Sizes.js';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import Header from '../components/Header.js';
 
+import Session from '../Session'
+const session = new Session()
 
 const db = new Database();
 
@@ -19,13 +21,13 @@ export default class AddTodo extends React.Component {
         super(props)
         this.state = {
             data: []
-            
+
         }
     }
 
     getItem() {
         return ({ item }) =>
-            <View style={styles.itemStyle} onPress={this.getListViewItem.bind(this, item)}>
+            <View style={item.isDone?styles.itemStyleDone :styles.itemStyle} onPress={this.getListViewItem.bind(this, item)}>
                 <View style={styles.innerList}>
                     <Text style={styles.itemTextStyle}
                     >{item.work}</Text>
@@ -82,9 +84,12 @@ export default class AddTodo extends React.Component {
 
 
     listTodo() {
-        db.listWorks().then(result => {
-            this.setState({ data: result })
+        session.getUserId().then(result => {
+            db.listWorks(result).then(result => {
+                this.setState({ data: result })
+            })
         })
+
     }
 
 

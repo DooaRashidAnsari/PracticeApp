@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Animated, Easing } from "react-native";
+import { Image,View, Text, Animated, Easing } from "react-native";
 import styles from './styles.js'
 import strings from '../resources/Strings'
 import Database from '../Database';
@@ -38,6 +38,13 @@ export default class Splash extends React.Component {
 
     return (
       <View style={styles.container}>
+        <Image
+          
+          source={require('../resources/gradient.jpg')}
+          style={styles.logoStyle}
+          
+        />
+ 
         <Animated.View style={{ transform: [{ scale: scaleText }] }}>
           <Text style={styles.textHeading}>
             {strings.heading}
@@ -60,6 +67,7 @@ export default class Splash extends React.Component {
           }}
           source={{ uri: 'https://s3.amazonaws.com/media-p.slid.es/uploads/alexanderfarennikov/images/1198519/reactjs.png' }}
         />
+
       </View>
     )
   }

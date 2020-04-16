@@ -5,7 +5,7 @@ import Colors from '../resources/Colors'
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'center',     
     backgroundColor:Colors.backgroundScreen
   },
   textHeading: {
@@ -19,11 +19,13 @@ const style = StyleSheet.create({
   },
   textBottom: {
     fontSize: Sizes.Font.small,
-    color: Colors.headerColor,
+    color: Colors.white,
     justifyContent:'center',
     marginTop:Sizes.Margin.medium,
     textDecorationLine: 'underline'
 
+  },logoStyle:{
+    height:150
   }
 
 }

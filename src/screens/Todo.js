@@ -28,7 +28,7 @@ export default class AddTodo extends React.Component {
 
   getItem() {
     return ({ item }) =>
-      <View style={styles.itemStyle}>
+      <View style={item.isDone?styles.itemStyleDone :styles.itemStyle}>
         <View style={styles.innerList}>
           <Text style={styles.itemTextStyle}
             onPress={this.getListViewItem.bind(this, item)}>{item.work}</Text>
@@ -147,7 +147,10 @@ export default class AddTodo extends React.Component {
   }
 
   getListViewItem = (item) => {
-    //    this.props.closeDialog(item)
+    db.updateWorkDone(item.key).then(result => {
+      this.listTodo()
+    })
+    
   }
 
   updateItem = (item) => {

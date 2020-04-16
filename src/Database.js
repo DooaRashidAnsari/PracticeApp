@@ -61,7 +61,7 @@ export default class Database {
   createTables(db) {
     db.transaction((tx) => {
       tx.executeSql('CREATE TABLE IF NOT EXISTS User (user_id INTEGER PRIMARY KEY AUTOINCREMENT,Name,Password)');
-      tx.executeSql('CREATE TABLE IF NOT EXISTS Todo (work_id INTEGER PRIMARY KEY AUTOINCREMENT,Work,Desc,Date,user_id)');
+      tx.executeSql('CREATE TABLE IF NOT EXISTS Todo (work_id INTEGER PRIMARY KEY AUTOINCREMENT,Work,Desc,Date,Done,user_id)');
     }).then(() => {
       console.log("Table created successfully");
       this.closeDatabase(db)
@@ -102,7 +102,7 @@ export default class Database {
   }
 
 
-  listWorks() {
+  listWorks(userId) {
     const works = [];
 
     return new Promise((resolve) => {
@@ -114,18 +114,19 @@ export default class Database {
       )
         .then(DB => {
           DB.transaction((tx) => {
-            tx.executeSql('SELECT Work,Desc,Date,work_id FROM Todo ORDER BY work_id DESC').then(([tx, results]) => {
+            tx.executeSql('SELECT Work,Desc,Date,Done,work_id FROM Todo WHERE user_id = ? ORDER BY work_id DESC',[userId]).then(([tx, results]) => {
               console.log("Query completed");
               var len = results.rows.length;
               for (let i = 0; i < len; i++) {
                 let row = results.rows.item(i);
                 //console.log(`Work: ${row.Work}`)
-                const { Work, Desc, Date, work_id } = row;
+                const { Work, Desc, Date,Done, work_id } = row;
                 works.push({
                   key: work_id,
                   work: Work,
                   desc: Desc,
                   date: Date,
+                  isDone:Done,
                   isDescView: false
                 });
               }
@@ -157,18 +158,19 @@ export default class Database {
       )
         .then(DB => {
           DB.transaction((tx) => {
-            tx.executeSql('SELECT Work,Desc,Date,work_id FROM Todo Where Date = ? AND user_id = ? ORDER BY work_id DESC', [moment().format('LL'),userId]).then(([tx, results]) => {
+            tx.executeSql('SELECT Work,Desc,Date,Done,work_id FROM Todo Where Date = ? AND user_id = ? ORDER BY work_id DESC', [moment().format('LL'),userId]).then(([tx, results]) => {
               console.log("Query completed");
               var len = results.rows.length;
               for (let i = 0; i < len; i++) {
                 let row = results.rows.item(i);
                 console.log(`Work: ${row.Work}`)
-                const { Work, Desc, Date, work_id } = row;
+                const { Work, Desc, Date,Done, work_id } = row;
                 works.push({
                   key: work_id,
                   work: Work,
                   desc: Desc,
                   date: Date,
+                  isDone:Done,
                   isDescView: false
                 });
               }
@@ -238,6 +240,36 @@ export default class Database {
           console.log('updating db')
           //  SELECT Work,work_id FROM Todo
           tx.executeSql('UPDATE Todo SET Work = ?,Desc = ? WHERE work_id = ?', [newValue, descValue, id]).then(([tx, results]) => {
+            resolve(results);
+          });
+        }).then((result) => {
+          //this.closeDatabase(DB);
+          //Alert.alert(strings.updatedValue);
+
+        }).catch((err) => {
+          console.log(err);
+        });
+
+      }).catch(error => {
+        console.log(error);
+      });
+
+    });
+
+
+  }
+  updateWorkDone(id) {
+    return new Promise((resolve) => {
+      SQLite.openDatabase(
+        database_name,
+        database_version,
+        database_displayname,
+        database_size
+      ).then(DB => {
+        DB.transaction((tx) => {
+          console.log('updating db')
+          //  SELECT Work,work_id FROM Todo
+          tx.executeSql('UPDATE Todo SET Done = ? WHERE work_id = ?', [true, id]).then(([tx, results]) => {
             resolve(results);
           });
         }).then((result) => {

@@ -13,7 +13,8 @@ const Colors = {
   buttonColor:'#ff008c',
   headerColor:'#bc3f72',
   errorRed:'#a80101',
-  transparent:'#00FFFFFF'
+  transparent:'#00FFFFFF',
+  done:'#69b590'
 }
 
 export default Colors
