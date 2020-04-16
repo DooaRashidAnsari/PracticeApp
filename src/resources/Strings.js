@@ -30,7 +30,8 @@ const String = {
     listAllTodo:'List Of All To Do',
     enterUserName:'*Please enter username',
     enterPassword:'*Please enter password',
-    enterWork:'*Please enter work'
+    enterWork:'*Please enter work',
+    termsConditions:'Do you agree to our terms and conditions'
 }
 
 export default String

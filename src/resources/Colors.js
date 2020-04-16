@@ -12,7 +12,8 @@ const Colors = {
   placeholdeColor:'#e5e3e3',
   buttonColor:'#ff008c',
   headerColor:'#bc3f72',
-  errorRed:'#a80101'
+  errorRed:'#a80101',
+  transparent:'#00FFFFFF'
 }
 
 export default Colors

@@ -13,6 +13,15 @@ const database_displayname = "SQLite React Offline Database";
 const database_size = 200000;
 
 
+const saveUserId = async userId => {
+  try {
+    await AsyncStorage.setItem('userId', userId+'');
+  } catch (error) {
+    // Error retrieving data
+    console.log(error.message);
+  }
+};
+
 export default class Database {
 
   closeDatabase(db) {
@@ -57,7 +66,7 @@ export default class Database {
   createTables(db) {
     db.transaction((tx) => {
       tx.executeSql('CREATE TABLE IF NOT EXISTS User (user_id INTEGER PRIMARY KEY AUTOINCREMENT,Name,Password)');
-      tx.executeSql('CREATE TABLE IF NOT EXISTS Todo (work_id INTEGER PRIMARY KEY AUTOINCREMENT,Work,Desc,Date)');
+      tx.executeSql('CREATE TABLE IF NOT EXISTS Todo (work_id INTEGER PRIMARY KEY AUTOINCREMENT,Work,Desc,Date,user_id)');
     }).then(() => {
       console.log("Table created successfully");
       this.closeDatabase(db)
@@ -65,9 +74,9 @@ export default class Database {
       console.log(error);
     });
   }
-  
 
-  insertWork(work, desc) {
+
+  insertWork(work, desc,userId) {
     return new Promise((resolve) => {
       SQLite.openDatabase(
         database_name,
@@ -77,12 +86,12 @@ export default class Database {
       )
         .then(DB => {
           DB.transaction((tx) => {
-            tx.executeSql('INSERT INTO Todo (Work,Desc,Date) VALUES (?,?,?)', [work, desc, moment().format('LL')]).then(([tx, results]) => {
+            tx.executeSql('INSERT INTO Todo (Work,Desc,Date,user_id) VALUES (?,?,?,?)', [work, desc, moment().format('LL'),userId]).then(([tx, results]) => {
 
             });
             resolve('inserted');
           }).then((result) => {
-            
+
             // this.closeDatabase(DB);
             //Alert.alert(strings.toDoAdded);
 
@@ -141,7 +150,7 @@ export default class Database {
     });
   }
 
-  listWorksToday() {
+  listWorksToday(userId) {
     const works = [];
 
     return new Promise((resolve) => {
@@ -153,7 +162,7 @@ export default class Database {
       )
         .then(DB => {
           DB.transaction((tx) => {
-            tx.executeSql('SELECT Work,Desc,Date,work_id FROM Todo Where Date = ? ORDER BY work_id DESC', [moment().format('LL')]).then(([tx, results]) => {
+            tx.executeSql('SELECT Work,Desc,Date,work_id FROM Todo Where Date = ? AND user_id = ? ORDER BY work_id DESC', [moment().format('LL'),userId]).then(([tx, results]) => {
               console.log("Query completed");
               var len = results.rows.length;
               for (let i = 0; i < len; i++) {
@@ -195,9 +204,12 @@ export default class Database {
         .then(DB => {
           DB.transaction((tx) => {
             tx.executeSql('INSERT INTO User (Name,Password) VALUES (?,?)', [username, password]).then(([tx, results]) => {
-              console.log('create result')
-              console.log(results)
-              resolve(results.insertId);
+              saveUserId(results.insertId).then(() => {
+                console.log('create result')
+                console.log(results)
+                resolve(results.insertId);   
+              })
+             
             });
           }).then((result) => {
             //this.closeDatabase(DB);
@@ -332,10 +344,15 @@ export default class Database {
             let isFound = false
             if (len > 0) isFound = true
             console.log('Saved userid')
-            console.log(results.rows.item(0).user_id)
-            //console.log(AsyncStorage.getItem('userId'))
-            if (isFound)
-              execute(isFound, results.rows.item(0).user_id)
+            //console.log(results.rows.item(0).user_id)
+            saveUserId(results.rows.item(0).user_id).then(() => {
+              //console.log('after saved user'
+             // )
+              //console.log(result+'')
+              if (isFound)
+                execute(isFound)
+            })
+            
           });
         }).then((result) => {
           this.closeDatabase(DB);

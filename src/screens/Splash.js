@@ -44,7 +44,7 @@ export default class Splash extends React.Component {
         </Animated.View>
 
         <Animated.View style={{ top: introButton, position: 'absolute', transform: [{ scale: scaleText2 }] }}>
-          <Text style={styles.textBottoms}>
+          <Text style={styles.textBottom}>
             {strings.headingBottom}
           </Text>
         </Animated.View>

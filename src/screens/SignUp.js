@@ -13,23 +13,24 @@ import Moment from 'moment';
 import { StackActions } from '@react-navigation/native';
 import names from './names'
 import AsyncStorage from '@react-native-community/async-storage';
-
+import { CheckBox } from 'react-native-elements'
 
 const db = new Database();
 
 const saveUserId = async userId => {
     try {
-      await AsyncStorage.setItem('userId', userId);
+        await AsyncStorage.setItem('userId', userId);
     } catch (error) {
-      // Error retrieving data
-      console.log(error.message);
+        // Error retrieving data
+        console.log(error.message);
     }
-  };
+};
 
 export default class SignUp extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            isFemale: true, isMale: false,
             username: '', password: ''
             , isUserNameValid: true, isPasswordValid: true, isEmailValid: true
         }
@@ -62,11 +63,56 @@ export default class SignUp extends React.Component {
 
             ></InputField>
 
-            <CustomPicker icon='venus-mars'
+            <CustomPicker icon='flag'
                 style={styles.pickerStyle}
             ></CustomPicker>
             <CustomDatePicker icon='calendar' style={styles.pickerStyle}></CustomDatePicker>
+            <View style={{ flexDirection: 'row' }}>
+                <CheckBox
+                    checkedIcon='dot-circle-o'
+                    uncheckedIcon='circle-o'
+                    containerStyle={styles.radioButtonStyle}
+                    textStyle={styles.checkBoxTextStyle}
+                    checkedColor={Colors.headerColor}
+                    title='Female'
+                    checked={this.state.isFemale}
+                    onPress={() => {
+                        if (!this.state.isFemale) {
+                            this.setState({ isFemale: !this.state.isFemale })
+                            this.setState({ isMale: !this.state.isMale })
 
+                        }
+
+                    }}
+                />
+                <CheckBox
+                    checkedIcon='dot-circle-o'
+                    uncheckedIcon='circle-o'
+                    containerStyle={styles.radioButtonStyle}
+                    textStyle={styles.checkBoxTextStyle}
+                    checkedColor={Colors.headerColor}
+                    title='Male'
+                    checked={this.state.isMale}
+                    onPress={() => {
+                        if (!this.state.isMale) {
+                            this.setState({ isFemale: !this.state.isFemale })
+                            this.setState({ isMale: !this.state.isMale })
+
+                        }
+
+                    }}
+                />
+
+            </View>
+
+            <CheckBox
+                containerStyle={styles.checkboxStyle}
+                textStyle={styles.checkBoxTextStyle}
+                checkedColor='green'
+                title={strings.termsConditions}
+                checked={this.state.checked}
+                onPress={() => this.setState({ checked: !this.state.checked })}
+            />
 
             <CustomButton
                 style={styles.buttonSave}
@@ -101,13 +147,13 @@ export default class SignUp extends React.Component {
 
         console.log(this.state.isPasswordValid)
         console.log(this.state.isUserNameValid)
-        if (proceedPassword && proceedUser) {
+        if (this.state.checked && proceedPassword && proceedUser) {
             db.insertUser(username, password).then(result => {
                 console.log('saving user id')
                 console.log(result)
                 saveUserId(result)
                 this.props.navigation.dispatch(StackActions.replace(names.todo));
-            
+
             })
 
         }

@@ -18,7 +18,7 @@ export default class CustomPicker extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { isVisible: false ,text:'Pakistan'}
+        this.state = { isVisible: false ,text:'Country'}
     }
 
     static propsType = {

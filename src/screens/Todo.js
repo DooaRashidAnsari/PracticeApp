@@ -171,7 +171,9 @@ export default class AddTodo extends React.Component {
   }
 
   listTodo() {
-    db.listWorksToday().then(result => {
+    console.log('List to do method')
+    console.log(this.state.userId)
+    db.listWorksToday(this.state.userId).then(result => {
       //console.log(result)
       this.setState({ data: result })
       //console.log('Current state')
@@ -181,36 +183,40 @@ export default class AddTodo extends React.Component {
   }
 
   componentDidMount() {
-      this.listTodo()
+    getUserId().then(result => {
+        console.log('getting userid')
+        console.log(result+'')
+        this.setState({userId:result+''})
+        this.listTodo()
+    })
     
-
   }
 
   saveTodo() {
-      if (this.state.work == '') {
-        this.setState({ isWork: false })
+    if (this.state.work == '') {
+      this.setState({ isWork: false })
+    } else {
+      this.setState({ isWork: true })
+
+      if (this.state.isUpdate) {
+        db.updateWork(this.state.updateId, this.state.work, this.state.desc).then(result => {
+          this.setState({ isUpdate: false, buttonText: strings.save })
+          console.log('inside listing update')
+          this.listTodo()
+        })
       } else {
-        this.setState({ isWork: true })
-
-        if (this.state.isUpdate) {
-          db.updateWork(this.state.updateId, this.state.work,this.state.desc).then(result => {
-            this.setState({ isUpdate: false, buttonText: strings.save })
-            console.log('inside listing update')
-            this.listTodo()
-          })
-        } else {
-          console.log('inserting')
-          db.insertWork(this.state.work, this.state.desc).then(result => {
-            console.log('inside listing')
-            this.listTodo()
+        console.log('inserting')
+        db.insertWork(this.state.work, this.state.desc,this.state.userId).then(result => {
+          console.log('inside listing')
+          this.listTodo()
 
 
-          })
-        }
-
+        })
       }
 
     }
+
+  }
 
   cancel() {
     this.setState({ work: '', desc: '', isUpdate: false, buttonText: strings.save })

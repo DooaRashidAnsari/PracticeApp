@@ -5,21 +5,24 @@ import Colors from '../resources/Colors'
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor:Colors.backgroundScreen
   },
   textHeading: {
     fontSize: Sizes.Font.large,
-    color: Colors.textHeadingColor,
+    color: Colors.buttonColor,
     justifyContent:'center',
-    marginTop:Sizes.Margin.large
+    marginTop:Sizes.Margin.large,
+    fontWeight:'bold'
     
 
   },
   textBottom: {
-    fontSize: Sizes.Font.large,
-    color: Colors.textColorSecondary,
+    fontSize: Sizes.Font.small,
+    color: Colors.headerColor,
     justifyContent:'center',
-    marginTop:Sizes.Margin.medium
+    marginTop:Sizes.Margin.medium,
+    textDecorationLine: 'underline'
 
   }
 

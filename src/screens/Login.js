@@ -14,14 +14,6 @@ import { StackActions } from '@react-navigation/native';
 
 const db = new Database();
 
-const saveUserId = async userId => {
-    try {
-      await AsyncStorage.setItem('userId', userId);
-    } catch (error) {
-      // Error retrieving data
-      console.log(error.message);
-    }
-  };
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -55,7 +47,6 @@ export default class Login extends React.Component {
             db.searchUser(username, password, (isFound,userId) => {
 
                 if (isFound) {
-                    saveUserId(userId)
                     this.props.navigation.dispatch(StackActions.replace(Names.todo));
                 }
                 else Alert.alert(strings.userNotExist);
