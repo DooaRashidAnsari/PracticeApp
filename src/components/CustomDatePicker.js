@@ -18,7 +18,7 @@ export default class CustomDatePicker extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { isVisible: false, text: Moment().format('LL') }
+        this.state = { isVisible: false, text: this.props.text == null ? Moment().format('LL') : this.props.text }
     }
 
     static propsType = {
@@ -26,7 +26,8 @@ export default class CustomDatePicker extends Component {
         icon: PropTypes.string,
         keyboardType: PropTypes.string,
         onChangeText: PropTypes.func,
-        style: PropTypes.style
+        style: PropTypes.style,
+        text: PropTypes.string
     }
 
 
@@ -42,17 +43,18 @@ export default class CustomDatePicker extends Component {
                 >
                     <Text style={styles.textInput}>{Moment(this.state.text).format('LL')} </Text>
                 </TouchableOpacity>
-                {this.state.isVisible&&<DateTimePicker
+                {this.state.isVisible && <DateTimePicker
                     testID="dateTimePicker"
                     timeZoneOffsetInMinutes={0}
                     value={new Date(1598051730000)}
                     mode={'date'}
                     is24Hour={true}
                     display="default"
-                    onChange={(event,selectedDate)=>{
+                    onChange={(event, selectedDate) => {
                         console.log('date')
                         console.log(selectedDate)
-                        this.setState({isVisible:false,text:selectedDate})}}
+                        this.setState({ isVisible: false, text: selectedDate })
+                    }}
                 />}
             </View>
 
@@ -61,6 +63,10 @@ export default class CustomDatePicker extends Component {
 
     showDialog(status) {
         () => { this.setState({ isVisible: status }) }
+    }
+
+    getSelectedDate() {
+        return this.state.text
     }
 
 

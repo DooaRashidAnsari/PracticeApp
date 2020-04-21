@@ -4,7 +4,8 @@ const Names = {
    signUp:'SignUp',
    todo:'Todo',
    update:'UpdateTodo',
-   allTodo:'allTodo'
+   allTodo:'allTodo',
+   drawer:'Drawer'
    
 }
 

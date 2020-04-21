@@ -18,7 +18,7 @@ export default class Header extends Component {
         text: PropTypes.string,
         menuVisible: PropTypes.bool,
         navigation: PropTypes.navigation,
-        clearList:PropTypes.func
+        clearList: PropTypes.func
 
     }
 
@@ -27,7 +27,9 @@ export default class Header extends Component {
             <View style={styles.mainView}>
                 <Text style={styles.textInput}>{this.props.text}</Text>
                 <View style={styles.menuStyle}>
-                    {this.props.menuVisible && <CustomMenu clearList={this.props.clearList} navigation={this.props.navigation}></CustomMenu>
+                    {this.props.menuVisible && <CustomMenu clearList={this.props.clearList} navigation={this.props.navigation}>
+
+                   </CustomMenu>
                     }
 
                 </View>

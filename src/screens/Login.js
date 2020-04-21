@@ -11,7 +11,6 @@ import CustomButton from '../components/CustomButton.js';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions } from '@react-navigation/native';
 
-
 const db = new Database();
 
 
@@ -47,7 +46,7 @@ export default class Login extends React.Component {
             db.searchUser(username, password, (isFound,userId) => {
 
                 if (isFound) {
-                    this.props.navigation.dispatch(StackActions.replace(Names.todo));
+                    this.props.navigation.dispatch(StackActions.replace(Names.drawer));
                 }
                 else Alert.alert(strings.userNotExist);
 
@@ -94,7 +93,7 @@ export default class Login extends React.Component {
 
 
             <Text style={styles.bottomText}
-                onPress={() => this.props.navigation.navigate('SignUp')}
+                onPress={() => this.props.navigation.navigate('SignUp',{isEdit:false})}
             >
                 {strings.signupMessage}
             </Text>

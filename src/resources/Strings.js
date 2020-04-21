@@ -25,13 +25,18 @@ const String = {
     listAll:'List All',
     deleteAll:'Delete All',
     clearCache:'Clear Cache',
+    editUser:'Edit User',
     logout:'Logout',
     date:'DATE:',
     listAllTodo:'List Of All To Do',
     enterUserName:'*Please enter username',
     enterPassword:'*Please enter password',
     enterWork:'*Please enter work',
-    termsConditions:'Do you agree to our terms and conditions'
+    termsConditions:'Do you agree to our terms and conditions',
+    selectImage:'Select Image',
+    male:'Male',
+    female:'Female',
+    selectCountry:'Select Country'
 }
 
 export default String

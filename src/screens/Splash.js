@@ -109,7 +109,7 @@ export default class Splash extends React.Component {
         if (this.state.userId == 'none')
           this.props.navigation.dispatch(StackActions.replace(Names.login));
         else
-          this.props.navigation.dispatch(StackActions.replace(Names.todo));
+          this.props.navigation.dispatch(StackActions.replace(Names.drawer));
 
       }, 4000)
     })

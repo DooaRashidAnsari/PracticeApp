@@ -7,6 +7,7 @@ import SignUp from './screens/SignUp'
 import Todo from './screens/Todo'
 import updateTodo from './screens/UpdateTodo'
 import allTodo from './screens/ListAllTodo'
+import drawer from './screens/DrawerScreen'
 import Colors from './resources/Colors'
 import Strings from './resources/Strings'
 import Names from './screens/names'
@@ -47,6 +48,11 @@ return (<NavigationContainer>
             </Stack.Screen>
             <Stack.Screen name= {Names.allTodo}
              component={allTodo}
+            >
+            </Stack.Screen>
+            
+            <Stack.Screen name= {Names.drawer}
+             component={drawer}
             >
             </Stack.Screen>
             

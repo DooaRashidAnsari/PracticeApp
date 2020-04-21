@@ -34,7 +34,7 @@ const style = StyleSheet.create({
 
   },
   checkboxStyle: {
-    width:'100%',
+    width: '100%',
     backgroundColor: Colors.fieldBackColor,
 
   },
@@ -42,16 +42,11 @@ const style = StyleSheet.create({
     color: Colors.white
   },
   radioButtonStyle: {
-    flex:0.5,
+    flex: 0.5,
     backgroundColor: Colors.backgroundScreen,
-    borderColor:Colors.backgroundScreen
+    borderColor: Colors.backgroundScreen
 
   },
-  
-
-
-
-
 }
 )
 

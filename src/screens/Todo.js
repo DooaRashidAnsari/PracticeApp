@@ -16,7 +16,7 @@ import Session from '../Session'
 const db = new Database();
 const session = new Session()
 
-export default class AddTodo extends React.Component {
+export default class Todo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {

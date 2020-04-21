@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 
 import { View, Text } from 'react-native';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
@@ -12,7 +13,6 @@ import Database from '../Database';
 import { StackActions } from '@react-navigation/native';
 import Session from '../Session'
 const session = new Session()
-
 const db = new Database();
 
 
@@ -28,9 +28,9 @@ class CustomMenu extends React.PureComponent {
         super(props)
     }
 
-    componentDidMount(){
-        session.getUserId().then(result=>{
-            this.setState({userId:result})
+    componentDidMount() {
+        session.getUserId().then(result => {
+            this.setState({ userId: result })
         })
     }
 
@@ -43,10 +43,13 @@ class CustomMenu extends React.PureComponent {
     hideMenu = () => {
         this._menu.hide();
     };
-    
+
 
     showMenu = () => {
-        this._menu.show();
+        //this.props.navigation.navigate('Todo',{screen:'DrawerOpen'})
+        this.props.navigation.dispatch(DrawerActions.toggleDrawer());
+                
+        //this._menu.show();
     };
     deleteAllTodo() {
         this.hideMenu()
@@ -65,16 +68,23 @@ class CustomMenu extends React.PureComponent {
         })
     }
 
+    editUser() {
+        this.hideMenu()
+        this.props.navigation.navigate(names.signUp, { isEdit: true });
+
+    }
+
+
     clearCache() {
         this.hideMenu()
         session.deleteSession().then(result => {
-            db.deleteAllTodays(this.state.userId).then(result=>{
+            db.deleteAllTodays(this.state.userId).then(result => {
                 if (result)
-                this.props.navigation.dispatch(StackActions.replace(names.login));
+                    this.props.navigation.dispatch(StackActions.replace(names.login));
 
             })
-            
-            
+
+
         })
     }
 
@@ -86,6 +96,8 @@ class CustomMenu extends React.PureComponent {
                     ref={this.setMenuRef}
                     button={<FontAwesomeIcon onPress={this.showMenu} size={20} icon='bars' style={styles.iconStyle} />}
                 >
+                    <MenuItem onPress={this.editUser.bind(this)}> {strings.editUser}</MenuItem>
+                    
                     <MenuItem onPress={() => {
                         this.hideMenu()
                         this.props.navigation.navigate(names.allTodo)
