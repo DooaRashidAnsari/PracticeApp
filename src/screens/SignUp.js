@@ -14,25 +14,21 @@ import { CheckBox, Avatar } from 'react-native-elements'
 import CustomDropdown from '../components/CustomDropdown'
 import CustomImagePicker from '../components/CustomImagePicker.js';
 import Moment from 'moment';
-import {BackHandler} from 'react-native'
-
+import { BackHandler } from 'react-native'
+import MessageBox from '../components/MessageBox'
 
 const db = new Database();
 
 import Session from '../Session'
 const session = new Session()
 
-const backAction = (props) => {
-    props.navigation.goBack(null);
-        
-    return true;
-  };
 
 
 export default class SignUp extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            isVisible: false,
             isEdit: false,
             isFemale: true, isMale: false,
             username: '', password: ''
@@ -57,20 +53,20 @@ export default class SignUp extends React.Component {
         this._date = ref
     }
 
-    
-    
-    componentWillMount(){
-        
-        _eventSubs = BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
+
+
+    componentWillMount() {
+
+        this._eventSubs = BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
     }
 
-    componentWillUnmount(){
-        _eventSubs.remove()
+    componentWillUnmount() {
+        this._eventSubs.remove()
         // console.log('unMount');
         //BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton.bind(this));
-      }
+    }
 
-    handleBackButton(){
+    handleBackButton() {
         console.log('back press called')
         this.props.navigation.pop();
         return true;
@@ -87,10 +83,11 @@ export default class SignUp extends React.Component {
                         username: result.Name,
                         country: result.Country,
                         isFemale: result.Gender == 'Female' ? true : false,
-                        isMale: result.Gender == '' ? true : false,
+                        isMale: result.Gender == 'Male' ? true : false,
                         birthday: result.Birthday,
                         fileUri: result.Picture
                     })
+                    this._picker.setFileUri(result.Picture)
                 })
             })
 
@@ -98,6 +95,8 @@ export default class SignUp extends React.Component {
     }
 
     render() {
+        console.log('Showing picture')
+        console.log(this.state.fileUri)
         //const {isEdit} = this.route.params
         //  console.log(this.props.route)
         // console.log(this.props.navigation)
@@ -105,11 +104,10 @@ export default class SignUp extends React.Component {
             {!this.state.isEdit && <Text style={styles.textHeading}>
                 {strings.signUp}
             </Text>}
-
             <CustomImagePicker fileUri={this.state.fileUri} ref={this.setRef}
             ></CustomImagePicker>
             <InputField
-                value = {this.state.username}
+                value={this.state.username}
                 style={styles.inputPassword}
                 isError={this.state.isUserNameValid}
                 errorMessage={strings.enterUserName}
@@ -120,7 +118,7 @@ export default class SignUp extends React.Component {
 
             ></InputField>
 
-            <InputField
+            {!this.state.isEdit && <InputField
                 isError={this.state.isPasswordValid}
                 errorMessage={strings.enterPassword}
                 style={styles.inputPassword}
@@ -129,7 +127,7 @@ export default class SignUp extends React.Component {
                 keyboardType='password'
                 onChangeText={(value) => this.setState({ password: value })}
 
-            ></InputField>
+            ></InputField>}
             <CustomDropdown data={[{ value: 'Pakistan' }, { value: 'India' }, { value: 'Usa' }, { value: 'Canada' }, { value: 'Russia' }]}
                 text={this.state.isEdit ? this.state.country : strings.selectCountry} ref={this.setCountryRef} style={styles.pickerStyle} icon='flag'></CustomDropdown>
 
@@ -188,9 +186,12 @@ export default class SignUp extends React.Component {
                 text={this.state.isEdit ? strings.update : strings.save}
                 onPress={this.saveUser.bind(this)}
             />
-
-
-
+            <MessageBox isVisible={this.state.isVisible} message='User updated successfully' buttonText='Ok'
+                closeDialog={() => { this.setState({ isVisible: false }) 
+                //this.props.navigation.dispatch(StackActions.replace(names.todo));
+            
+            }}
+            ></MessageBox>
         </View>
     }
 
@@ -219,12 +220,13 @@ export default class SignUp extends React.Component {
         //console.log(this.state.isPasswordValid)
         //console.log(this.state.isUserNameValid)
         if (this.state.isEdit) {
-            if (proceedPassword && proceedUser) {
-                db.updateUser(username, password, this._country.getSelectedCountry()
+            if (proceedUser) {
+                db.updateUser(username, this._country.getSelectedCountry()
                     , Moment(this._date.getSelectedDate()).format('LL'), this.state.isFemale ? strings.female : strings.male
                     , this._picker.getFileUri(), this.state.userId
                 ).then(result => {
                     console.log('inside update')
+                    this.setState({ isVisible: true })
                 })
 
             }

@@ -31,5 +31,25 @@ export default class Session{
         }
       };
       
+      setOnBoardingShown = async () => {
+        try {
+          await AsyncStorage.setItem('onBoardingShown', true+'');
+        } catch (error) {
+          // Error retrieving data
+          console.log(error.message);
+        }
+      };
+
+      isOnBoardingShown = async () => {
+        let shown = false;
+        try {
+          shown = await AsyncStorage.getItem('onBoardingShown') || false;
+        } catch (error) {
+          // Error retrieving data
+          console.log(error.message);
+        }
+        return shown;
+      }
+
       
 }

@@ -230,7 +230,7 @@ export default class Database {
 }
 
 
-updateUser(username, password, country, birthday, gender, picture, userId) {
+updateUser(username, country, birthday, gender, picture, userId) {
   return new Promise((resolve) => {
     SQLite.openDatabase(
       database_name,
@@ -240,7 +240,7 @@ updateUser(username, password, country, birthday, gender, picture, userId) {
     )
       .then(DB => {
         DB.transaction((tx) => {
-          tx.executeSql('UPDATE User SET Name = ?,Password = ?,Country = ?,Birthday = ?,Gender = ?,Picture = ? WHERE user_id = ?', [username, password, country, birthday, gender, picture, userId]).then(([tx, results]) => {
+          tx.executeSql('UPDATE User SET Name = ?,Country = ?,Birthday = ?,Gender = ?,Picture = ? WHERE user_id = ?', [username, country, birthday, gender, picture, userId]).then(([tx, results]) => {
             resolve('updated');
 
           });

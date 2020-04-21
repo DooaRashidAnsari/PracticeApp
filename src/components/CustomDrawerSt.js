@@ -20,6 +20,15 @@ const style = StyleSheet.create({
         justifyContent: 'center',
         textTransform: 'uppercase',
         fontWeight:'bold'
+    },
+    smallText:{
+        fontSize: Sizes.Font.small,
+        color: Colors.fieldBackColor,
+        justifyContent: 'center',
+        alignSelf:'center',
+        marginBottom:20
+        
+        
     }
 
 

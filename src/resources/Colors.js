@@ -14,7 +14,11 @@ const Colors = {
   headerColor:'#bc3f72',
   errorRed:'#a80101',
   transparent:'#00FFFFFF',
-  done:'#69b590'
+  done:'#69b590',
+  onBoardColor1:'#ee00ff',
+  onBoardColor2:'#b080cc',
+  onBoardColor3:'#80ccbe',
+  onBoardColor4:'#cc80be'
 }
 
 export default Colors

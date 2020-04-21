@@ -7,6 +7,7 @@ import SignUp from './screens/SignUp'
 import Todo from './screens/Todo'
 import updateTodo from './screens/UpdateTodo'
 import allTodo from './screens/ListAllTodo'
+import onBoarding from './screens/OnboardingScreen'
 import drawer from './screens/DrawerScreen'
 import Colors from './resources/Colors'
 import Strings from './resources/Strings'
@@ -53,6 +54,10 @@ return (<NavigationContainer>
             
             <Stack.Screen name= {Names.drawer}
              component={drawer}
+            >
+            </Stack.Screen>
+            <Stack.Screen name= {Names.onBoarding}
+             component={onBoarding}
             >
             </Stack.Screen>
             

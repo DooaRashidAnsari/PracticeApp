@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image,View, Text, Animated, Easing } from "react-native";
+import { Image, View, Text, Animated, Easing } from "react-native";
 import styles from './styles.js'
 import strings from '../resources/Strings'
 import Database from '../Database';
@@ -39,12 +39,11 @@ export default class Splash extends React.Component {
     return (
       <View style={styles.container}>
         <Image
-          
           source={require('../resources/gradient.jpg')}
           style={styles.logoStyle}
-          
+
         />
- 
+
         <Animated.View style={{ transform: [{ scale: scaleText }] }}>
           <Text style={styles.textHeading}>
             {strings.heading}
@@ -76,10 +75,16 @@ export default class Splash extends React.Component {
   componentDidMount() {
     db.initDB()
     this.animate()
-    session.getUserId().then(result => {
-      console.log('getting userid')
-      console.log(result + '')
-      this.setState({ userId: result + '' })
+    session.isOnBoardingShown().then(isShown => {
+      console.log('onboarding value')
+      console.log(isShown)
+      this.setState({ isOnboarding: isShown })
+      session.getUserId().then(result => {
+        console.log('getting userid')
+        console.log(result + '')
+        this.setState({ userId: result + '' })
+      })
+
     })
 
   }
@@ -106,8 +111,15 @@ export default class Splash extends React.Component {
       createAnimation(this.animatedValue3, 1000, Easing.ease, 2000)
     ]).start(() => {
       setTimeout(() => {
-        if (this.state.userId == 'none')
+        if(!this.state.isOnboarding){
+          console.log('onboarding shown')
+          this.props.navigation.dispatch(StackActions.replace(Names.onBoarding));
+        }else if (this.state.userId == 'none'){
+          console.log('user id')
+          
           this.props.navigation.dispatch(StackActions.replace(Names.login));
+        
+        }          
         else
           this.props.navigation.dispatch(StackActions.replace(Names.drawer));
 

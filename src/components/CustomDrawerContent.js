@@ -12,11 +12,19 @@ import Session from '../Session'
 import names from '../screens/names'
 import Database from '../Database';
 import { StackActions } from '@react-navigation/native';
+import { Avatar } from 'react-native-elements'
+import { DrawerActions } from '@react-navigation/native';
+import { NavigationActions } from '@react-navigation/native';
 
 
 const session = new Session()
 const db = new Database();
 export default class CustomDrawerContent extends Component {
+    constructor(props) {
+        super(props)
+        this.state = { fileUri: '', username: 'User Name' }
+    }
+
     static propsType = {
         navigation: PropTypes.navigation
     }
@@ -26,14 +34,38 @@ export default class CustomDrawerContent extends Component {
             console.log('getting userid')
             console.log(result + '')
             this.setState({ userId: result + '' })
+            db.getUser(result).then(result => {
+                console.log(result)
+                this.setState({
+                    username: result.Name,
+                    fileUri: result.Picture
+                })
+
+
+            })
         })
 
+    }
+
+    componentDidUpdate() {
     }
 
 
     render() {
         return (
-            <View style={styles.mainView}>
+            <View style={styles.mainView}
+            >
+                <View style={{ justifyContent: 'center', alignSelf: 'center', paddingTop: 20 }}>
+                    <Avatar
+                        icon={{ name: 'user', type: 'font-awesome' }}
+                        size='medium'
+                        onPress={this.chooseImage}
+                        rounded
+                        source={{ uri: this.state.fileUri }}
+                    />
+
+                </View>
+                <Text style={styles.smallText}>{this.state.username}</Text>
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={[
@@ -81,15 +113,24 @@ export default class CustomDrawerContent extends Component {
         );
     }
 
+    closeNavigation() {
+        this.props.navigation.dispatch(DrawerActions.toggleDrawer());
+
+    }
     deleteAllTodo() {
+        this.closeNavigation()
         console.log('calling delete all')
         db.deleteAll(this.state.userId).then(result => {
+            //this.props.navigation.dispatch(StackActions.popToTop());
+            
             this.props.navigation.dispatch(StackActions.replace(names.todo));
             //this.props.clearList()           
         })
     }
 
     removeUserId() {
+        this.closeNavigation()
+
         session.deleteSession().then(result => {
             if (result)
                 this.props.navigation.dispatch(StackActions.replace(names.login));
@@ -99,13 +140,17 @@ export default class CustomDrawerContent extends Component {
     }
 
     editUser() {
+        this.closeNavigation()
+
         console.log('navigating to signup edit')
         this.props.navigation.dispatch(StackActions.push(names.signUp, { isEdit: true }));
-     
+
     }
 
 
     clearCache() {
+        this.closeNavigation()
+
         session.deleteSession().then(result => {
             db.deleteAllTodays(this.state.userId).then(result => {
                 if (result)
@@ -118,6 +163,8 @@ export default class CustomDrawerContent extends Component {
     }
 
     listAll() {
+        this.closeNavigation()
+
         this.props.navigation.navigate(names.allTodo)
     }
 

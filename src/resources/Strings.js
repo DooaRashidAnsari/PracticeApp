@@ -36,7 +36,9 @@ const String = {
     selectImage:'Select Image',
     male:'Male',
     female:'Female',
-    selectCountry:'Select Country'
+    selectCountry:'Select Country',
+    onboarding:'Welcome',
+    welcome:'Welcome to To do App !. This app will help you manage daily work tasks and keep track of them'
 }
 
 export default String

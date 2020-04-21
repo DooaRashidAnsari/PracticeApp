@@ -17,10 +17,14 @@ export default class CustomImagePicker extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            fileUri : { uri: this.props.fileUri }
+            fileUri : this.props.fileUri
         }
     }
 
+    componentDidMount(){
+        
+        //this.setState({fileUri:this.props.fileUri})
+    }
     
     chooseImage = () => {
         let options = {
@@ -39,7 +43,7 @@ export default class CustomImagePicker extends React.Component {
                 console.log('User tapped custom button: ', response.customButton);
                 alert(response.customButton);
             } else {
-                this.setState({fileUri:{ uri: response.uri }})  
+                this.setState({fileUri: response.uri})  
             }
         });
     }
@@ -54,7 +58,7 @@ export default class CustomImagePicker extends React.Component {
                     size='large'
                     onPress={this.chooseImage}
                     rounded
-                    source={this.state.fileUri}
+                    source={{ uri: this.state.fileUri }}
                 />
 
             </View>
@@ -63,6 +67,10 @@ export default class CustomImagePicker extends React.Component {
 
     getFileUri(){
         return this.state.fileUri
+    }
+
+    setFileUri(fileUriU){
+        this.setState({fileUri:fileUriU})
     }
 
 
