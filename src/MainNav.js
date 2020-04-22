@@ -9,6 +9,7 @@ import updateTodo from './screens/UpdateTodo'
 import allTodo from './screens/ListAllTodo'
 import onBoarding from './screens/OnboardingScreen'
 import drawer from './screens/DrawerScreen'
+import syncData from './screens/SyncedTodos'
 import Colors from './resources/Colors'
 import Strings from './resources/Strings'
 import Names from './screens/names'
@@ -17,67 +18,71 @@ const Stack = createStackNavigator()
 function MainNav() {
 
 
-return (<NavigationContainer>
-        <Stack.Navigator
-            initialRouteName={Names.splash}
-            headerMode = 'none'
-        >
-            <Stack.Screen name={Names.splash}
-             component={Splash}
-             options={getHeaderOptionsForSplash()}
-            >
-            
-            </Stack.Screen>
-            <Stack.Screen name= {Names.login}
-             component={Login}
-            >
-            
-            </Stack.Screen>
-            <Stack.Screen name= {Names.signUp}
-             component={SignUp}
-            >
-            
-            </Stack.Screen>
-            <Stack.Screen name= {Names.todo}
-             component={Todo}
-            >
-            
-            </Stack.Screen>
-            <Stack.Screen name= {Names.update}
-             component={updateTodo}
-            >
-            </Stack.Screen>
-            <Stack.Screen name= {Names.allTodo}
-             component={allTodo}
-            >
-            </Stack.Screen>
-            
-            <Stack.Screen name= {Names.drawer}
-             component={drawer}
-            >
-            </Stack.Screen>
-            <Stack.Screen name= {Names.onBoarding}
-             component={onBoarding}
-            >
-            </Stack.Screen>
-            
-        </Stack.Navigator>
-    </NavigationContainer>)
+  return (<NavigationContainer>
+    <Stack.Navigator
+      initialRouteName={Names.splash}
+      headerMode='none'
+    >
+      <Stack.Screen name={Names.splash}
+        component={Splash}
+        options={getHeaderOptionsForSplash()}
+      >
+
+      </Stack.Screen>
+      <Stack.Screen name={Names.login}
+        component={Login}
+      >
+
+      </Stack.Screen>
+      <Stack.Screen name={Names.signUp}
+        component={SignUp}
+      >
+
+      </Stack.Screen>
+      <Stack.Screen name={Names.todo}
+        component={Todo}
+      >
+
+      </Stack.Screen>
+      <Stack.Screen name={Names.update}
+        component={updateTodo}
+      >
+      </Stack.Screen>
+      <Stack.Screen name={Names.allTodo}
+        component={allTodo}
+      >
+      </Stack.Screen>
+
+      <Stack.Screen name={Names.drawer}
+        component={drawer}
+      >
+      </Stack.Screen>
+      <Stack.Screen name={Names.onBoarding}
+        component={onBoarding}
+      >
+      </Stack.Screen>
+      <Stack.Screen name={Names.syncData}
+        component={syncData}
+      >
+      </Stack.Screen>
+
+    </Stack.Navigator>
+  </NavigationContainer>)
 }
 
-function getHeaderOptionsForSplash(){
-    return {
-        title:Strings.home,
-        headerStyle: {
-          backgroundColor:Colors.primaryColor,
-        },
-        headerTintColor: Colors.white,
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        headerTitleAlign: 'center'
-        
-      }
+function getHeaderOptionsForSplash() {
+  return {
+    title: Strings.home,
+    headerStyle: {
+      backgroundColor: Colors.primaryColor,
+    },
+    headerTintColor: Colors.white,
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+    headerTitleAlign: 'center'
+
+  }
 }
 
 export default MainNav

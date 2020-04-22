@@ -58,7 +58,7 @@ export default class CustomImagePicker extends React.Component {
                     size='large'
                     onPress={this.chooseImage}
                     rounded
-                    source={{ uri: this.state.fileUri }}
+                    source={this.state.fileUri != undefined?{ uri: this.state.fileUri }:''}
                 />
 
             </View>

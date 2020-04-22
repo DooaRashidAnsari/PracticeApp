@@ -107,7 +107,7 @@ export default class Todo extends React.Component {
                   icon='info'
                   keyboardType='text'
                   onChangeText={(value) => this.setState({ desc: value })}
-
+                  multiline={true}
                 ></InputField>
 
               </View>

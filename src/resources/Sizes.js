@@ -5,6 +5,7 @@ const Sizes = {
       large:25
   },
   Margin:{
+      xsmall:5,
       small:10,
       medium:15,
       large:20

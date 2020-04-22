@@ -38,7 +38,14 @@ const String = {
     female:'Female',
     selectCountry:'Select Country',
     onboarding:'Welcome',
-    welcome:'Welcome to To do App !. This app will help you manage daily work tasks and keep track of them'
+    welcome:'Welcome to To do App !. This app will help you manage daily work tasks and keep track of them',
+    loadingData:'Loading data please wait...',
+    syncData:'Sync Data',
+    userUpated:'User updated successfully',
+    ok:'Ok',
+    deleteSure:'Are you sure you want to delete ?',
+    confirm:'Confirm',
+    
 }
 
 export default String

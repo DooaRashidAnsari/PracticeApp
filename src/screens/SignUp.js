@@ -186,7 +186,7 @@ export default class SignUp extends React.Component {
                 text={this.state.isEdit ? strings.update : strings.save}
                 onPress={this.saveUser.bind(this)}
             />
-            <MessageBox isVisible={this.state.isVisible} message='User updated successfully' buttonText='Ok'
+            <MessageBox isVisible={this.state.isVisible} message={strings.userUpated} buttonText={strings.ok}
                 closeDialog={() => { this.setState({ isVisible: false }) 
                 //this.props.navigation.dispatch(StackActions.replace(names.todo));
             
@@ -238,7 +238,7 @@ export default class SignUp extends React.Component {
 
                 db.insertUser(username, password, this._country.getSelectedCountry()
                     , Moment(this._date.getSelectedDate()).format('LL'), this.state.isFemale ? strings.female : strings.male
-                    , this._picker.getFileUri().uri
+                    , this._picker.getFileUri()
                 ).then(result => {
                     console.log('saving user id')
                     console.log(result)

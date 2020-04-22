@@ -15,6 +15,7 @@ import { StackActions } from '@react-navigation/native';
 import { Avatar } from 'react-native-elements'
 import { DrawerActions } from '@react-navigation/native';
 import { NavigationActions } from '@react-navigation/native';
+import DeleteConfirm from './DeleteConfirm.js';
 
 
 const session = new Session()
@@ -22,7 +23,7 @@ const db = new Database();
 export default class CustomDrawerContent extends Component {
     constructor(props) {
         super(props)
-        this.state = { fileUri: '', username: 'User Name' }
+        this.state = { isVisible: false, fileUri: '', username: 'User Name' }
     }
 
     static propsType = {
@@ -88,7 +89,7 @@ export default class CustomDrawerContent extends Component {
                         styles.opacityView
                     ]}
                 >
-                    <Text style={styles.textInput} onPress={this.deleteAllTodo.bind(this)}>{strings.deleteAll}</Text>
+                    <Text style={styles.textInput} onPress={this.showDialog.bind(this)}>{strings.deleteAll}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     activeOpacity={0.8}
@@ -107,8 +108,29 @@ export default class CustomDrawerContent extends Component {
                     <Text style={styles.textInput} onPress={this.removeUserId.bind(this)}>{strings.logout}</Text>
                 </TouchableOpacity>
 
+                <TouchableOpacity
+                    activeOpacity={0.8}
+                    style={[
+                        styles.opacityView
+                    ]}
+                >
+                    <Text style={styles.textInput} onPress={this.syncData.bind(this)}>{strings.syncData}</Text>
+                </TouchableOpacity>
 
-            </View>
+                <DeleteConfirm isVisible={this.state.isVisible}
+                    leftFunc={() => { this.setState({ isVisible: false }) }}
+                    rightFunc={() => {
+                        this.setState({ isVisible: false })
+                        this.deleteAllTodo() 
+                       
+                    }}
+                    message={strings.deleteSure}
+                    buttonTextRight={strings.confirm}
+                    buttonTextLeft={strings.cancel}
+                >
+
+                </DeleteConfirm>
+            </View >
 
         );
     }
@@ -117,12 +139,17 @@ export default class CustomDrawerContent extends Component {
         this.props.navigation.dispatch(DrawerActions.toggleDrawer());
 
     }
+
+    showDialog(){
+        this.closeNavigation()
+        this.setState({isVisible:true})
+    }
     deleteAllTodo() {
         this.closeNavigation()
         console.log('calling delete all')
         db.deleteAll(this.state.userId).then(result => {
             //this.props.navigation.dispatch(StackActions.popToTop());
-            
+
             this.props.navigation.dispatch(StackActions.replace(names.todo));
             //this.props.clearList()           
         })
@@ -164,11 +191,14 @@ export default class CustomDrawerContent extends Component {
 
     listAll() {
         this.closeNavigation()
-
         this.props.navigation.navigate(names.allTodo)
     }
 
 
+    syncData() {
+        this.closeNavigation()
+        this.props.navigation.navigate(names.syncData)
+    }
 
 
 

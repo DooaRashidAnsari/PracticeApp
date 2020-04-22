@@ -24,8 +24,11 @@ export default class InputField extends Component {
         style: PropTypes.style,
         value: PropTypes.string,
         isError: PropTypes.bool,
-        errorMessage: PropTypes.string
+        errorMessage: PropTypes.string,
+        multiline:PropTypes.bool
     }
+
+
 
     render() {
         return (
@@ -40,6 +43,7 @@ export default class InputField extends Component {
                         style={styles.textInput}
                         onChangeText={this.props.onChangeText}
                         value={this.props.value}
+                        multiline = {this.props.multiline}
 
                     ></TextInput>
 

@@ -6,7 +6,8 @@ const Names = {
    update:'UpdateTodo',
    allTodo:'allTodo',
    drawer:'Drawer',
-   onBoarding:'onBoarding'
+   onBoarding:'onBoarding',
+   syncData:'SyncData'
    
 }
 

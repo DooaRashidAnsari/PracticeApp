@@ -48,9 +48,6 @@ export default class DrawerScreen extends React.Component {
 
     }
 
-
-
-
     render() {
         return (
                 <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent navigation={this.props.navigation} />}
