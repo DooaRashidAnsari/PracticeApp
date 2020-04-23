@@ -12,6 +12,8 @@ export default class App extends React.Component {
   }
   render() {
     console.disableYellowBox = true;
+    //console.log
+    //console.log(this.props.navigation)
     return (
       <MainNav/>
     );

@@ -12,6 +12,7 @@ import Header from '../components/Header.js';
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import Session from '../Session'
+import PropTypes, { array } from 'prop-types';
 
 const db = new Database();
 const session = new Session()
@@ -26,9 +27,15 @@ export default class Todo extends React.Component {
     }
   }
 
+  static propsType = {
+    drawerRef: PropTypes.object
+
+  }
+
+
   getItem() {
     return ({ item }) =>
-      <View style={item.isDone?styles.itemStyleDone :styles.itemStyle}>
+      <View style={item.isDone ? styles.itemStyleDone : styles.itemStyle}>
         <View style={styles.innerList}>
           <Text style={styles.itemTextStyle}
             onPress={this.getListViewItem.bind(this, item)}>{item.work}</Text>
@@ -150,7 +157,7 @@ export default class Todo extends React.Component {
     db.updateWorkDone(item.key).then(result => {
       this.listTodo()
     })
-    
+
   }
 
   updateItem = (item) => {
@@ -177,13 +184,16 @@ export default class Todo extends React.Component {
   }
 
   componentDidMount() {
-    session.getUserId().then(result => {
-        console.log('getting userid')
-        console.log(result+'')
-        this.setState({userId:result+''})
-        this.listTodo()
-    })
+    console.log('Drawer ref')
+    console.log(this.props.drawerRef)
     
+    session.getUserId().then(result => {
+      console.log('getting userid')
+      console.log(result + '')
+      this.setState({ userId: result + '' })
+      this.listTodo()
+    })
+    this.props.drawerRef.updateComponent()
   }
 
   saveTodo() {
@@ -200,7 +210,7 @@ export default class Todo extends React.Component {
         })
       } else {
         console.log('inserting')
-        db.insertWork(this.state.work, this.state.desc,this.state.userId).then(result => {
+        db.insertWork(this.state.work, this.state.desc, this.state.userId).then(result => {
           console.log('inside listing')
           this.listTodo()
 

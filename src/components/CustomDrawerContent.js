@@ -16,10 +16,11 @@ import { Avatar } from 'react-native-elements'
 import { DrawerActions } from '@react-navigation/native';
 import { NavigationActions } from '@react-navigation/native';
 import DeleteConfirm from './DeleteConfirm.js';
-
+import * as RootNavigation from '../RootNavigation';
 
 const session = new Session()
 const db = new Database();
+
 export default class CustomDrawerContent extends Component {
     constructor(props) {
         super(props)
@@ -31,8 +32,14 @@ export default class CustomDrawerContent extends Component {
     }
 
     componentDidMount() {
+        //setNavigation()
+        this.updateComponent()
+
+    }
+
+    updateComponent() {
         session.getUserId().then(result => {
-            console.log('getting userid')
+            console.log('getting userid in custom drawer screen')
             console.log(result + '')
             this.setState({ userId: result + '' })
             db.getUser(result).then(result => {
@@ -45,14 +52,9 @@ export default class CustomDrawerContent extends Component {
 
             })
         })
-
     }
-
-    componentDidUpdate() {
-    }
-
-
     render() {
+        //console.log('render called')
         return (
             <View style={styles.mainView}
             >
@@ -121,8 +123,8 @@ export default class CustomDrawerContent extends Component {
                     leftFunc={() => { this.setState({ isVisible: false }) }}
                     rightFunc={() => {
                         this.setState({ isVisible: false })
-                        this.deleteAllTodo() 
-                       
+                        this.deleteAllTodo()
+
                     }}
                     message={strings.deleteSure}
                     buttonTextRight={strings.confirm}
@@ -136,21 +138,19 @@ export default class CustomDrawerContent extends Component {
     }
 
     closeNavigation() {
-        this.props.navigation.dispatch(DrawerActions.toggleDrawer());
+        RootNavigation.toggleDrawer()
 
     }
 
-    showDialog(){
+    showDialog() {
         this.closeNavigation()
-        this.setState({isVisible:true})
+        this.setState({ isVisible: true })
     }
     deleteAllTodo() {
         this.closeNavigation()
         console.log('calling delete all')
         db.deleteAll(this.state.userId).then(result => {
-            //this.props.navigation.dispatch(StackActions.popToTop());
-
-            this.props.navigation.dispatch(StackActions.replace(names.todo));
+            RootNavigation.replace(names.todo)
             //this.props.clearList()           
         })
     }
@@ -160,7 +160,7 @@ export default class CustomDrawerContent extends Component {
 
         session.deleteSession().then(result => {
             if (result)
-                this.props.navigation.dispatch(StackActions.replace(names.login));
+                RootNavigation.replace(names.login)
 
         })
 
@@ -168,9 +168,12 @@ export default class CustomDrawerContent extends Component {
 
     editUser() {
         this.closeNavigation()
+        RootNavigation.replace(names.signUp, { isEdit: true })
 
-        console.log('navigating to signup edit')
-        this.props.navigation.dispatch(StackActions.push(names.signUp, { isEdit: true }));
+        //const navigation = useNavigation();
+
+        //console.log('navigating to signup edit')
+        // navigation.dispatch(StackActions.push(names.signUp, { isEdit: true }));
 
     }
 
@@ -181,7 +184,7 @@ export default class CustomDrawerContent extends Component {
         session.deleteSession().then(result => {
             db.deleteAllTodays(this.state.userId).then(result => {
                 if (result)
-                    this.props.navigation.dispatch(StackActions.replace(names.login));
+                    RootNavigation.replace(names.login)
 
             })
 
@@ -191,13 +194,15 @@ export default class CustomDrawerContent extends Component {
 
     listAll() {
         this.closeNavigation()
-        this.props.navigation.navigate(names.allTodo)
+        RootNavigation.navigate(names.allTodo)
+
+        //this.props.navigation.navigate(names.allTodo)
     }
 
 
     syncData() {
         this.closeNavigation()
-        this.props.navigation.navigate(names.syncData)
+        RootNavigation.navigate(names.syncData)
     }
 
 

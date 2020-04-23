@@ -46,7 +46,7 @@ export default class Login extends React.Component {
             db.searchUser(username, password, (isFound,userId) => {
 
                 if (isFound) {
-                    this.props.navigation.dispatch(StackActions.replace(Names.drawer));
+                    this.props.navigation.dispatch(StackActions.replace(Names.todo));
                 }
                 else Alert.alert(strings.userNotExist);
 

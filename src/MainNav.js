@@ -13,76 +13,90 @@ import syncData from './screens/SyncedTodos'
 import Colors from './resources/Colors'
 import Strings from './resources/Strings'
 import Names from './screens/names'
+import CustomDrawerContent from './components/CustomDrawerContent'
 const Stack = createStackNavigator()
+import { createDrawerNavigator } from '@react-navigation/drawer';
+const Drawer = createDrawerNavigator();
+import { navigationRef, isMountedRef } from './RootNavigation';
+
+function Root() {
+  return <Stack.Navigator
+    headerMode='none'
+    initialRouteName={Names.splash}
+  >
+    <Stack.Screen name={Names.splash}
+      component={Splash}
+    >
+
+    </Stack.Screen>
+
+    <Stack.Screen name={Names.login}
+      component={Login}
+    >
+
+    </Stack.Screen>
+    <Stack.Screen name={Names.signUp}
+      component={SignUp}
+    >
+
+    </Stack.Screen>
+    <Stack.Screen name={Names.todo}
+      
+    >
+      {props => <Todo {...props} drawerRef={this._ref} />}
+    </Stack.Screen>
+    <Stack.Screen name={Names.update}
+      component={updateTodo}
+    >
+    </Stack.Screen>
+    <Stack.Screen name={Names.allTodo}
+      component={allTodo}
+    >
+    </Stack.Screen>
+
+    <Stack.Screen name={Names.drawer}
+      component={drawer}
+    >
+    </Stack.Screen>
+    <Stack.Screen name={Names.onBoarding}
+      component={onBoarding}
+    >
+    </Stack.Screen>
+    <Stack.Screen name={Names.syncData}
+      component={syncData}
+    >
+    </Stack.Screen>
+
+  </Stack.Navigator>
+}
+_ref = null
+setRef = ref => {
+  this._ref = ref
+}
+
 
 function MainNav() {
+  React.useEffect(() => {
+    isMountedRef.current = true;
+
+    return () => (isMountedRef.current = false);
+  }, []);
+
+  return (
+    <NavigationContainer ref={navigationRef}>
+      {console.log('creating ref')
+      }
+      {
+        console.log(React.createRef())}
+      <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent ref={this.setRef} />}
+        headerMode='none'
+        initialRouteName="Root" >
+        <Drawer.Screen name="Root" component={Root} />
+      </Drawer.Navigator>
 
 
-  return (<NavigationContainer>
-    <Stack.Navigator
-      initialRouteName={Names.splash}
-      headerMode='none'
-    >
-      <Stack.Screen name={Names.splash}
-        component={Splash}
-        options={getHeaderOptionsForSplash()}
-      >
-
-      </Stack.Screen>
-      <Stack.Screen name={Names.login}
-        component={Login}
-      >
-
-      </Stack.Screen>
-      <Stack.Screen name={Names.signUp}
-        component={SignUp}
-      >
-
-      </Stack.Screen>
-      <Stack.Screen name={Names.todo}
-        component={Todo}
-      >
-
-      </Stack.Screen>
-      <Stack.Screen name={Names.update}
-        component={updateTodo}
-      >
-      </Stack.Screen>
-      <Stack.Screen name={Names.allTodo}
-        component={allTodo}
-      >
-      </Stack.Screen>
-
-      <Stack.Screen name={Names.drawer}
-        component={drawer}
-      >
-      </Stack.Screen>
-      <Stack.Screen name={Names.onBoarding}
-        component={onBoarding}
-      >
-      </Stack.Screen>
-      <Stack.Screen name={Names.syncData}
-        component={syncData}
-      >
-      </Stack.Screen>
-
-    </Stack.Navigator>
-  </NavigationContainer>)
+    </NavigationContainer>)
 }
 
-function getHeaderOptionsForSplash() {
-  return {
-    title: Strings.home,
-    headerStyle: {
-      backgroundColor: Colors.primaryColor,
-    },
-    headerTintColor: Colors.white,
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-    headerTitleAlign: 'center'
-
-  }
-}
 
 export default MainNav

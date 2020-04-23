@@ -16,6 +16,8 @@ import CustomImagePicker from '../components/CustomImagePicker.js';
 import Moment from 'moment';
 import { BackHandler } from 'react-native'
 import MessageBox from '../components/MessageBox'
+import { CommonActions } from '@react-navigation/native';
+
 
 const db = new Database();
 
@@ -52,26 +54,7 @@ export default class SignUp extends React.Component {
     setDateRef = ref => {
         this._date = ref
     }
-
-
-
-    componentWillMount() {
-
-        this._eventSubs = BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
-    }
-
-    componentWillUnmount() {
-        this._eventSubs.remove()
-        // console.log('unMount');
-        //BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton.bind(this));
-    }
-
-    handleBackButton() {
-        console.log('back press called')
-        this.props.navigation.pop();
-        return true;
-    }
-
+   
     componentDidMount() {
         this.setState({ isEdit: this.props.route.params.isEdit })
         if (this.props.route.params.isEdit) {
@@ -188,7 +171,7 @@ export default class SignUp extends React.Component {
             />
             <MessageBox isVisible={this.state.isVisible} message={strings.userUpated} buttonText={strings.ok}
                 closeDialog={() => { this.setState({ isVisible: false }) 
-                //this.props.navigation.dispatch(StackActions.replace(names.todo));
+                this.props.navigation.dispatch(StackActions.replace(names.todo));
             
             }}
             ></MessageBox>
@@ -243,7 +226,18 @@ export default class SignUp extends React.Component {
                     console.log('saving user id')
                     console.log(result)
                     session.saveUserId(result)
-                    this.props.navigation.dispatch(StackActions.replace(names.drawer));
+                    this.props.navigation.dispatch(
+                        CommonActions.reset({
+                          index: 0,
+                          routes: [
+                            { name: names.todo },
+                            
+                          ],
+                        })
+                      );
+                    
+                    
+                    //this.props.navigation.dispatch(StackActions.replace(names.todo));
 
                 }).catch((err) => {
                     console.log(err);

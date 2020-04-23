@@ -4,7 +4,7 @@ import styles from './styles.js'
 import strings from '../resources/Strings'
 import Database from '../Database';
 import Names from '../screens/names'
-import { StackActions } from '@react-navigation/native';
+import { StackActions, NavigationActions } from '@react-navigation/native';
 const db = new Database();
 import Session from '../Session'
 const session = new Session()
@@ -74,7 +74,7 @@ export default class Splash extends React.Component {
 
   componentDidMount() {
     db.initDB()
-    this.animate()
+    this.animate(this.props)
     session.isOnBoardingShown().then(isShown => {
       console.log('onboarding value')
       console.log(isShown)
@@ -89,7 +89,7 @@ export default class Splash extends React.Component {
 
   }
 
-  animate() {
+  animate(props) {
     this.animatedValue1.setValue(0)
     this.animatedValue2.setValue(0)
     this.animatedValue3.setValue(0)
@@ -111,18 +111,19 @@ export default class Splash extends React.Component {
       createAnimation(this.animatedValue3, 1000, Easing.ease, 2000)
     ]).start(() => {
       setTimeout(() => {
-        if(!this.state.isOnboarding){
+        if (!this.state.isOnboarding) {
           console.log('onboarding shown')
           this.props.navigation.dispatch(StackActions.replace(Names.onBoarding));
-        }else if (this.state.userId == 'none'){
+        } else if (this.state.userId == 'none') {
           console.log('user id')
-          
           this.props.navigation.dispatch(StackActions.replace(Names.login));
-        
-        }          
-        else
-          this.props.navigation.dispatch(StackActions.replace(Names.drawer));
 
+        }
+        else {
+          this.props.navigation.dispatch(StackActions.replace(Names.todo));
+
+        }
+   
       }, 4000)
     })
     this.spin()
