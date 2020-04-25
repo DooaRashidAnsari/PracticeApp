@@ -9,6 +9,9 @@ import { createStore } from 'redux'
 import CounterApp from './src/CounterApp'
 import { Provider } from 'react-redux'
 import MainNav from './src/MainNav'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+
 /**
  * Store - holds our state - THERE IS ONLY ONE STATE 
  * Action - State can be modified using actions - SIMPLE OBJECTS 
@@ -19,27 +22,38 @@ import MainNav from './src/MainNav'
  * Subscriber - listens for state change to update the ui  
  */
 const initialState = {
-
+    isUserNameValid: true, isPasswordValid: true, username: ''
+    , password: ''
 }
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'VALID_USERNAME':
-            return { isUserNameValid: action.payload }
+            return { 
+                ...state,
+                isUserNameValid: action.payload }
         case 'VALID_PASSWORD':
-            return { isPasswordValid: action.payload }
+            return { ...state,isPasswordValid: action.payload }
         case 'USERNAME':
-            return { username: action.payload }
+            return { ...state,username: action.payload }
         case 'PASSWORD':
-            return { password: action.payload }
+            return { ...state,password: action.payload }
+        default: return state
     }
-    return state
+    
 }
 
 const store = createStore(reducer)
 
 class App extends Component {
+    constructor(props) {
+        super(props)
+        library.add(fas)
+
+    }
 
     render() {
+        console.disableYellowBox = true;
+
         return (
             <Provider store={store}>
                 <MainNav />

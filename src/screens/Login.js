@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from "react";
 import { View, Text, Button, Alert } from "react-native";
 import styles from './styleslogin.js'
 import { TextInput } from 'react-native'
@@ -14,51 +14,31 @@ import { connect } from 'react-redux'
 
 const db = new Database();
 
-function mapStateToProps(state) {
-    return { isUserNameValid: true, isPasswordValid: true, username: '', password: '' }
-}
 
-
-function mapDispatchToState() {
-    return {
-        setValidationUserName: () => dispatch({ type: 'VALID_USERNAME' }),
-        setValidationPassword: () => dispatch({ type: 'VALID_PASSWORD' }),
-        setUserName: (value) => dispatch({ type: 'USERNAME', payload: value }),
-        setPassword: (value) => dispatch({ type: 'PASSWORD',payload:value }),
-
-    }
-}
-
-class Login extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { isUserNameValid: true, isPasswordValid: true, username: '', password: '' }
-    }
+class Login extends Component {
     loginUser() {
-        const { username, password, isPasswordValid, isUserNameValid } = this.state;
         let proceedUser = false
         let proceedPassword = false
 
-        if (username == '') {
+        if (this.props.username == '') {
 
             console.log('empty username')
-            this.setState({ isUserNameValid: false })
+            this.props.setValidationUserName(false)
         } else {
             proceedUser = true
-            this.setState({ isUserNameValid: true })
+            this.props.setValidationUserName(true)
         }
-        if (password == '') {
+        if (this.props.password == '') {
             console.log('empty password')
-            this.setState({ isPasswordValid: false })
+            this.props.setValidationPassword(false)
         } else {
             proceedPassword = true
-            this.setState({ isPasswordValid: true })
+            this.props.setValidationPassword(true)
+           
         }
 
-        console.log(this.state.isPasswordValid)
-        console.log(this.state.isUserNameValid)
         if (proceedPassword && proceedUser) {
-            db.searchUser(username, password, (isFound, userId) => {
+            db.searchUser(this.props.username, this.props.password, (isFound, userId) => {
 
                 if (isFound) {
                     this.props.navigation.dispatch(StackActions.replace(Names.todo));
@@ -79,7 +59,7 @@ class Login extends React.Component {
                 {strings.login}
             </Text>
             <InputField
-                isError={this.state.isUserNameValid}
+                isError={this.props.isUserNameValid}
                 errorMessage={strings.enterUserName}
                 placeHolderText={strings.userName}
                 icon='user'
@@ -89,7 +69,7 @@ class Login extends React.Component {
             ></InputField>
 
             <InputField
-                isError={this.state.isPasswordValid}
+                isError={this.props.isPasswordValid}
                 errorMessage={strings.enterPassword}
                 style={styles.passwordStyle}
                 placeHolderText={strings.password}
@@ -115,6 +95,23 @@ class Login extends React.Component {
 
 
 }
-export default connect(mapStateToProps, mapDispatchToState)(Login)
+
+function mapStateToProps(state) {
+    return { isUserNameValid: state.isUserNameValid, isPasswordValid: state.isPasswordValid, username: state.username
+        , password: state.password }
+}
+
+
+function mapDispatchToProps(dispatch) {
+    return {
+        setValidationUserName: (value) => dispatch({ type: 'VALID_USERNAME',payload:value }),
+        setValidationPassword: (value) => dispatch({ type: 'VALID_PASSWORD',payload:value }),
+        setUserName: (value) => dispatch({ type: 'USERNAME', payload: value }),
+        setPassword: (value) => dispatch({ type: 'PASSWORD',payload:value }),
+
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Login)
 
 

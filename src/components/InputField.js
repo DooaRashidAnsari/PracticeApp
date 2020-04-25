@@ -9,13 +9,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import strings from '../resources/Strings'
 import Colors from '../resources/Colors'
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
 
 
 
-export default class InputField extends Component {
+class InputField extends Component {
     constructor(props) {
         super(props)
-        this.state = { inputvalue: '' }
+        
     }
 
     static propsType = {
@@ -62,3 +63,18 @@ export default class InputField extends Component {
 
 
 }
+
+function mapStateToProps(state) {
+    return {  }
+}
+
+
+function mapDispatchToProps(dispatch) {
+    return {
+        
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(InputField)
+
+
