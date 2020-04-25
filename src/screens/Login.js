@@ -10,11 +10,26 @@ import InputField from '../components/InputField.js'
 import CustomButton from '../components/CustomButton.js';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions } from '@react-navigation/native';
+import { connect } from 'react-redux'
 
 const db = new Database();
 
+function mapStateToProps(state) {
+    return { isUserNameValid: true, isPasswordValid: true, username: '', password: '' }
+}
 
-export default class Login extends React.Component {
+
+function mapDispatchToState() {
+    return {
+        setValidationUserName: () => dispatch({ type: 'VALID_USERNAME' }),
+        setValidationPassword: () => dispatch({ type: 'VALID_PASSWORD' }),
+        setUserName: (value) => dispatch({ type: 'USERNAME', payload: value }),
+        setPassword: (value) => dispatch({ type: 'PASSWORD',payload:value }),
+
+    }
+}
+
+class Login extends React.Component {
     constructor(props) {
         super(props)
         this.state = { isUserNameValid: true, isPasswordValid: true, username: '', password: '' }
@@ -43,7 +58,7 @@ export default class Login extends React.Component {
         console.log(this.state.isPasswordValid)
         console.log(this.state.isUserNameValid)
         if (proceedPassword && proceedUser) {
-            db.searchUser(username, password, (isFound,userId) => {
+            db.searchUser(username, password, (isFound, userId) => {
 
                 if (isFound) {
                     this.props.navigation.dispatch(StackActions.replace(Names.todo));
@@ -55,7 +70,7 @@ export default class Login extends React.Component {
         }
 
     }
-    
+
 
     render() {
 
@@ -69,7 +84,7 @@ export default class Login extends React.Component {
                 placeHolderText={strings.userName}
                 icon='user'
                 keyboardType='text'
-                onChangeText={(value) => this.setState({ username: value })}
+                onChangeText={(value) => this.props.setUserName(value)}
 
             ></InputField>
 
@@ -80,7 +95,7 @@ export default class Login extends React.Component {
                 placeHolderText={strings.password}
                 icon='key'
                 keyboardType='password'
-                onChangeText={(value) => this.setState({ password: value })}
+                onChangeText={(value) => this.props.setPassword(value)}
 
             ></InputField>
 
@@ -89,11 +104,8 @@ export default class Login extends React.Component {
                 text={strings.login}
                 onPress={this.loginUser.bind(this)}
             />
-
-
-
             <Text style={styles.bottomText}
-                onPress={() => this.props.navigation.navigate('SignUp',{isEdit:false})}
+                onPress={() => this.props.navigation.navigate('SignUp', { isEdit: false })}
             >
                 {strings.signupMessage}
             </Text>
@@ -103,3 +115,6 @@ export default class Login extends React.Component {
 
 
 }
+export default connect(mapStateToProps, mapDispatchToState)(Login)
+
+

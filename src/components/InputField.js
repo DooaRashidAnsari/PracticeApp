@@ -10,6 +10,8 @@ import strings from '../resources/Strings'
 import Colors from '../resources/Colors'
 import PropTypes from 'prop-types';
 
+
+
 export default class InputField extends Component {
     constructor(props) {
         super(props)
