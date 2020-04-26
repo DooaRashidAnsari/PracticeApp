@@ -11,7 +11,7 @@ import { Provider } from 'react-redux'
 import MainNav from './src/MainNav'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-
+import reducer from './src/reducers/BaseReducer'
 /**
  * Store - holds our state - THERE IS ONLY ONE STATE 
  * Action - State can be modified using actions - SIMPLE OBJECTS 
@@ -21,26 +21,6 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
  *  - only mandatory argument is the 'type' 
  * Subscriber - listens for state change to update the ui  
  */
-const initialState = {
-    isUserNameValid: true, isPasswordValid: true, username: ''
-    , password: ''
-}
-const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case 'VALID_USERNAME':
-            return { 
-                ...state,
-                isUserNameValid: action.payload }
-        case 'VALID_PASSWORD':
-            return { ...state,isPasswordValid: action.payload }
-        case 'USERNAME':
-            return { ...state,username: action.payload }
-        case 'PASSWORD':
-            return { ...state,password: action.payload }
-        default: return state
-    }
-    
-}
 
 const store = createStore(reducer)
 

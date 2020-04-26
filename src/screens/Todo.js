@@ -13,11 +13,14 @@ import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import Session from '../Session'
 import PropTypes, { array } from 'prop-types';
+import { mapStateToProps, mapDispatchToProps } from '../actions/TodoActions'
+import Constants from '../Constants'
+
 
 const db = new Database();
 const session = new Session()
 
-export default class Todo extends React.Component {
+class Todo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -43,7 +46,7 @@ export default class Todo extends React.Component {
             onPress={() => {
               console.log('called eye')
               item.isDescView = !item.isDescView
-              this.setState({ refresh: !this.state.refresh })
+              this.props.setRefresh(!this.props.refresh)
             }}
 
           />
@@ -84,9 +87,9 @@ export default class Todo extends React.Component {
 
         <View style={styles.container}>
           <FlatList
-            extraData={this.state.refresh}
+            extraData={this.props.refresh}
             style={styles.listStyle}
-            data={this.state.data}
+            data={this.props.data}
             renderItem={this.getItem()}
           />
 
@@ -95,31 +98,31 @@ export default class Todo extends React.Component {
 
               <View style={styles.innerListInput}>
                 <InputField
-                  isError={this.state.isWork}
+                  isError={this.props.isWork}
                   errorMessage={strings.enterWork}
                   placeHolderText={strings.enterWork}
-                  value={this.state.work}
+                  value={this.props.work}
                   style={styles.inputWork}
                   icon='list'
                   keyboardType='text'
-                  onChangeText={(value) => this.setState({ work: value })}
+                  onChangeText={(value) => this.props.setWork(value)}
 
                 ></InputField>
 
                 <InputField
-                  isError={this.state.isDesc}
+                  isError={this.props.isDesc}
                   placeHolderText={strings.enterDesc}
-                  value={this.state.desc}
+                  value={this.props.desc}
                   style={styles.inputDesc}
                   icon='info'
                   keyboardType='text'
-                  onChangeText={(value) => this.setState({ desc: value })}
+                  onChangeText={(value) => this.props.setDesc(value)}
                   multiline={true}
                 ></InputField>
 
               </View>
 
-              {this.state.isUpdate && <View style={{ flex: 0.2, flexDirection: 'row', }}>
+              {this.props.isUpdate && <View style={{ flex: 0.2, flexDirection: 'row', }}>
                 <CustomButton
                   style={styles.buttonUpdate}
                   text={strings.cancel}
@@ -127,15 +130,15 @@ export default class Todo extends React.Component {
                 />
                 <CustomButton
                   style={styles.buttonUpdate}
-                  text={this.state.buttonText}
+                  text={this.props.buttonText}
                   onPress={this.saveTodo.bind(this)}
                 />
 
               </View>}
-              {!this.state.isUpdate && <View style={{ flex: 0.2, flexDirection: 'row', }}>
+              {!this.props.isUpdate && <View style={{ flex: 0.2, flexDirection: 'row', }}>
                 <CustomButton
                   style={styles.buttonSave}
-                  text={this.state.buttonText}
+                  text={this.props.buttonText}
                   onPress={this.saveTodo.bind(this)}
                 />
 
@@ -161,8 +164,7 @@ export default class Todo extends React.Component {
   }
 
   updateItem = (item) => {
-    this.setState({ work: item.work, desc: item.desc, isUpdate: true, buttonText: strings.update, updateId: item.key })
-    //db.updateWork(id,work)
+    this.props.setUpdatValues(item.work, item.desc, strings.update, item.key)
   }
 
   deleteItem = (item) => {
@@ -172,45 +174,41 @@ export default class Todo extends React.Component {
   }
 
   listTodo() {
-    console.log('List to do method')
-    console.log(this.state.userId)
-    db.listWorksToday(this.state.userId).then(result => {
-      //console.log(result)
-      this.setState({ data: result })
-      //console.log('Current state')
-      //console.log(this.state.data)
-
+    db.listWorksToday(this.props.userId).then(result => {
+      this.props.setValue(Constants.RD_TODO.DATA, result)
     })
   }
 
   componentDidMount() {
     console.log('Drawer ref')
     console.log(this.props.drawerRef)
-    
+
     session.getUserId().then(result => {
       console.log('getting userid')
       console.log(result + '')
-      this.setState({ userId: result + '' })
+      this.props.setValue(Constants.RD_TODO.USER_ID, result)
       this.listTodo()
     })
     this.props.drawerRef.updateComponent()
   }
 
   saveTodo() {
-    if (this.state.work == '') {
-      this.setState({ isWork: false })
-    } else {
-      this.setState({ isWork: true })
+    if (this.props.work == '') {
+      this.props.setValue(Constants.RD_TODO.IS_WORK, false)
 
-      if (this.state.isUpdate) {
-        db.updateWork(this.state.updateId, this.state.work, this.state.desc).then(result => {
-          this.setState({ isUpdate: false, buttonText: strings.save })
+
+    } else {
+      this.props.setValue(Constants.RD_TODO.IS_WORK, true)
+
+      if (this.props.isUpdate) {
+        db.updateWork(this.props.updateId, this.props.work, this.props.desc).then(result => {
+          this.props.setIsUpdateState(strings.save)
           console.log('inside listing update')
           this.listTodo()
         })
       } else {
         console.log('inserting')
-        db.insertWork(this.state.work, this.state.desc, this.state.userId).then(result => {
+        db.insertWork(this.props.work, this.props.desc, this.props.userId).then(result => {
           console.log('inside listing')
           this.listTodo()
 
@@ -223,10 +221,13 @@ export default class Todo extends React.Component {
   }
 
   cancel() {
-    this.setState({ work: '', desc: '', isUpdate: false, buttonText: strings.save })
-
+    this.props.setCancelValues(strings.save)
+    
 
   }
 
 
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todo)
+

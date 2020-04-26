@@ -11,33 +11,17 @@ import CustomButton from '../components/CustomButton.js';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions } from '@react-navigation/native';
 import { connect } from 'react-redux'
+import {mapStateToProps,mapDispatchToProps} from '../actions/LoginAction'
+import Validations from '../helpers/Validations'
+import ValidationCN from '../constants/ValidationCN'
 
 const db = new Database();
 
 
 class Login extends Component {
     loginUser() {
-        let proceedUser = false
-        let proceedPassword = false
-
-        if (this.props.username == '') {
-
-            console.log('empty username')
-            this.props.setValidationUserName(false)
-        } else {
-            proceedUser = true
-            this.props.setValidationUserName(true)
-        }
-        if (this.props.password == '') {
-            console.log('empty password')
-            this.props.setValidationPassword(false)
-        } else {
-            proceedPassword = true
-            this.props.setValidationPassword(true)
-           
-        }
-
-        if (proceedPassword && proceedUser) {
+        object =  this.validate()
+        if (object.usernameMsg == null && object.passwordMsg == null) {
             db.searchUser(this.props.username, this.props.password, (isFound, userId) => {
 
                 if (isFound) {
@@ -49,6 +33,19 @@ class Login extends Component {
 
         }
 
+    }
+
+    validate(){
+        msgUserName = this.internalValidation(this.props.username,this.props.setUserNameMsg.bind(this),this.props.setValidationUserName.bind(this))
+        msgPassword = this.internalValidation(this.props.password,this.props.setPasswordMsg.bind(this),this.props.setValidationPassword.bind(this))
+        return {usernameMsg:msgUserName,passwordMsg:msgPassword}
+    }
+
+    internalValidation(fieldName,funcMsg,funcIs){
+        var isFalse = Validations.validate([ValidationCN.EMPTY],fieldName)
+        funcMsg(isFalse)
+        funcIs(isFalse?false:true)
+        return isFalse
     }
 
 
@@ -96,21 +93,6 @@ class Login extends Component {
 
 }
 
-function mapStateToProps(state) {
-    return { isUserNameValid: state.isUserNameValid, isPasswordValid: state.isPasswordValid, username: state.username
-        , password: state.password }
-}
-
-
-function mapDispatchToProps(dispatch) {
-    return {
-        setValidationUserName: (value) => dispatch({ type: 'VALID_USERNAME',payload:value }),
-        setValidationPassword: (value) => dispatch({ type: 'VALID_PASSWORD',payload:value }),
-        setUserName: (value) => dispatch({ type: 'USERNAME', payload: value }),
-        setPassword: (value) => dispatch({ type: 'PASSWORD',payload:value }),
-
-    }
-}
 
 export default connect(mapStateToProps,mapDispatchToProps)(Login)
 
