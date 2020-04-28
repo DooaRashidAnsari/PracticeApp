@@ -7,8 +7,8 @@ const style = StyleSheet.create({
       flex:1,
       flexDirection:'column',
       alignItems:'center',
-      paddingStart:20,
-      paddingEnd:20,
+      paddingStart:'5%',
+      paddingEnd:'5%',
       justifyContent:'center',
       backgroundColor:Colors.backgroundScreen
     },

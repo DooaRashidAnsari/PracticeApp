@@ -1,11 +1,11 @@
 const Constants = {
     RD_LOGIN : {
-        VALID_USERNAME = 'VALID_USERNAME',
-        VALID_PASSWORD = 'VALID_PASSWORD',
-        USERNAME = 'USERNAME',
-        PASSWORD = 'PASSWORD',
-        MSG_USERNAME = 'MSG_USERNAME',
-        MSG_PASSWORD = 'MSG_PASSWORD'
+        VALID_USERNAME : 'VALID_USERNAME',
+        VALID_PASSWORD : 'VALID_PASSWORD',
+        USERNAME : 'USERNAME',
+        PASSWORD : 'PASSWORD',
+        MSG_USERNAME : 'MSG_USERNAME',
+        MSG_PASSWORD : 'MSG_PASSWORD'
     },
     RD_TODO : {
        WORK:'WORK',
@@ -20,3 +20,4 @@ const Constants = {
        REFRESH:'REFRESH' 
     }
 }
+export default Constants

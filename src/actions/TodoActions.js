@@ -1,11 +1,13 @@
-import Constant from '../Constants'
+import Constant from '../constants/ReducersCN'
 
 
 export function mapStateToProps(state) {
     return {
-        isWork: state.isWork, isDesc: state.isDesc, userId: state.userId, data: state.data, work: state.work
-        , desc: state.desc, isUpdate: state.isUpdate, updateId: state.updateId, buttonText: state.buttonText
-        , refresh: state.refresh
+        isWork: state.todoReducer.isWork, isDesc: state.todoReducer.isDesc, userId: state.todoReducer.userId
+        , data: state.todoReducer.data, work: state.todoReducer.work
+        , desc: state.todoReducer.desc, isUpdate: state.todoReducer.isUpdate, updateId: state.todoReducer.updateId
+        , buttonText: state.todoReducer.buttonText
+        , refresh: state.todoReducer.refresh
     }
 
 }

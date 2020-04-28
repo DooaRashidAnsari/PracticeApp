@@ -14,21 +14,15 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Session from '../Session'
 import PropTypes, { array } from 'prop-types';
 import { mapStateToProps, mapDispatchToProps } from '../actions/TodoActions'
-import Constants from '../Constants'
+import Constants from '../constants/ReducersCN'
+import { connect } from 'react-redux'
+
 
 
 const db = new Database();
 const session = new Session()
 
 class Todo extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isWork: true, isDesc: true, userId: '',
-      data: [], work: '', desc: '', isUpdate: false, updateId: 0, buttonText: strings.save
-      , refresh: false
-    }
-  }
 
   static propsType = {
     drawerRef: PropTypes.object
@@ -46,7 +40,7 @@ class Todo extends React.Component {
             onPress={() => {
               console.log('called eye')
               item.isDescView = !item.isDescView
-              this.props.setRefresh(!this.props.refresh)
+              this.props.setValue(Constants.RD_TODO.REFRESH,!this.props.refresh)
             }}
 
           />
@@ -105,7 +99,7 @@ class Todo extends React.Component {
                   style={styles.inputWork}
                   icon='list'
                   keyboardType='text'
-                  onChangeText={(value) => this.props.setWork(value)}
+                  onChangeText={(value) => this.props.setValue(Constants.RD_TODO.WORK,value)}
 
                 ></InputField>
 
@@ -116,7 +110,7 @@ class Todo extends React.Component {
                   style={styles.inputDesc}
                   icon='info'
                   keyboardType='text'
-                  onChangeText={(value) => this.props.setDesc(value)}
+                  onChangeText={(value) => this.props.setValue(Constants.RD_TODO.DESC,value)}
                   multiline={true}
                 ></InputField>
 
@@ -164,6 +158,9 @@ class Todo extends React.Component {
   }
 
   updateItem = (item) => {
+    console.log('printing key')
+    console.log(item.key)
+    console.log(strings.update)
     this.props.setUpdatValues(item.work, item.desc, strings.update, item.key)
   }
 

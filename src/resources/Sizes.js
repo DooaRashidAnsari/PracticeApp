@@ -2,13 +2,16 @@ const Sizes = {
   Font:{
       small:15,
       medium:20,
-      large:25
+      large:25,
+      dMedium:'20rem',
+      heading:'4rem',
+      dSmall:'1rem'
   },
   Margin:{
       xsmall:5,
       small:10,
       medium:15,
-      large:20
+      large:'10%'
   },
 
   General:{

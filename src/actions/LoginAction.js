@@ -1,21 +1,60 @@
 import Constant from '../constants/ReducersCN'
+import Validations from '../helpers/Validations'
+import ValidationCN from '../constants/ValidationCN'
+import Database from '../Database';
+import { StackActions } from '@react-navigation/native';
+import Names from '../screens/names'
+
+const validations = new Validations()
+const db = new Database();
 
 
 export function mapStateToProps(state) {
-    return { isUserNameValid: state.isUserNameValid, isPasswordValid: state.isPasswordValid, username: state.username
-        , password: state.password,msg_username:state.msg_username,msg_password:state.msg_password }
+    return {
+        isUserNameValid: state.LoginReducer.isUserNameValid, isPasswordValid: state.LoginReducer.isPasswordValid
+        , username: state.LoginReducer.username
+        , password: state.LoginReducer.password, msg_username: state.LoginReducer.msg_username
+        , msg_password: state.LoginReducer.msg_password
+    }
 }
 
 
 export function mapDispatchToProps(dispatch) {
     return {
-        setValidationUserName: (value) => dispatch({ type: Constant.RD_LOGIN.VALID_USERNAME,payload:value }),
-        setValidationPassword: (value) => dispatch({ type: Constant.RD_LOGIN.VALID_PASSWORD,payload:value }),
         setUserName: (value) => dispatch({ type: Constant.RD_LOGIN.USERNAME, payload: value }),
-        setPassword: (value) => dispatch({ type: Constant.RD_LOGIN.PASSWORD,payload:value }),
-        setUserNameMsg: (value) => dispatch({ type: Constant.RD_LOGIN.MSG_USERNAME, payload: value }),
-        setPasswordMsg: (value) => dispatch({ type:Constant.RD_LOGIN.MSG_PASSWORD,payload:value }),
 
+        setPassword: (value) => dispatch({ type: Constant.RD_LOGIN.PASSWORD, payload: value }),
+
+        validateFormData: (username, password, passwordField, userNameField) => {
+            var msgUserName = validations.validate([ValidationCN.EMPTY], username, userNameField)
+            var msgPassword = validations.validate([ValidationCN.EMPTY], password, passwordField)
+            dispatch({
+                type: Constant.RD_LOGIN.VALID_USERNAME,
+                payload: msgUserName == null ? true : false
+            })
+            dispatch({
+                type: Constant.RD_LOGIN.VALID_PASSWORD,
+                payload: msgPassword == null ? true : false
+            })
+            dispatch({
+                type: Constant.RD_LOGIN.MSG_PASSWORD,
+                payload: msgPassword
+            })
+            dispatch({
+                type: Constant.RD_LOGIN.MSG_USERNAME,
+                payload: msgUserName
+            })
+
+        },
+        loginUser: (username,password,navigation) => {
+            db.searchUser(username, password, (isFound, userId) => {
+                if (isFound) {
+                    navigation.dispatch(StackActions.replace(Names.todo));
+                }
+                else Alert.alert(strings.userNotExist);
+
+            })
+        }
 
     }
 }

@@ -1,23 +1,14 @@
-import { StyleSheet } from 'react-native'
-import Sizes from '../resources/Sizes'
-import Colors from '../resources/Colors'
-import stylegeneral from '../screens/generalstyle'
+import EStyleSheet from 'react-native-extended-stylesheet';
+import Sizes from '../../resources/Sizes'
+import Colors from '../../resources/Colors'
+import stylegeneral from '../generalstyle'
 
 
-const style = StyleSheet.create({
+const style = EStyleSheet.create({
   container:{
     ...stylegeneral.container
   },
   
-  textInput: {
-    fontSize: Sizes.Font.medium,
-    color: Colors.textColorSecondary,
-    borderColor: Colors.primaryColor,
-    borderWidth: 1,
-    marginBottom: Sizes.Margin.medium,
-    width: '90%'
-
-  },
   passwordStyle: {
     marginTop: Sizes.Margin.medium
   },
@@ -25,13 +16,13 @@ const style = StyleSheet.create({
     marginTop: Sizes.Margin.medium
   },
   bottomText: {
-    fontSize: Sizes.Font.small,
+    fontSize: Sizes.Font.dSmall,
     color: Colors.headerColor,
     marginTop: Sizes.Margin.large,
     textDecorationLine: 'underline'
   },
   textHeading: {
-    fontSize: 40,
+    fontSize: Sizes.Font.heading,
     fontWeight:'bold',
     color: Colors.headerColor
     , marginTop: Sizes.Margin.large,
@@ -42,8 +33,6 @@ const style = StyleSheet.create({
   buttonStyle: {
     width: '90%'
   }
-
-
 }
 )
 

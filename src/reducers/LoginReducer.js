@@ -1,10 +1,10 @@
-import Constants from '../Constants';
+import Constants from '../constants/ReducersCN';
 
 const initialState = {
     isUserNameValid: true, isPasswordValid: true, username: ''
     , password: '',msg_username:'',msg_password:''
 }
-const reducerLogin = (state = initialState, action) => {
+const LoginReducer = (state = initialState, action) => {
     switch (action.type) {
         case Constants.RD_LOGIN.VALID_USERNAME:
             return {
@@ -19,10 +19,10 @@ const reducerLogin = (state = initialState, action) => {
             return { ...state, password: action.payload }
         case Constants.RD_LOGIN.MSG_USERNAME: return { ...state, msg_username: action.payload }
         case Constants.RD_LOGIN.MSG_PASSWORD: return { ...state, msg_password: action.payload }
-
+        
         default: return state
     }
 
 }
 
-export default reducerLogin;
+export default LoginReducer;

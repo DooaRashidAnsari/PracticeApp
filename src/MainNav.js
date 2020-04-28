@@ -2,10 +2,9 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Splash from './screens/Splash'
-import Login from './screens/Login'
+import Login from './screens/LoginScreen'
 import SignUp from './screens/SignUp'
 import Todo from './screens/Todo'
-import updateTodo from './screens/UpdateTodo'
 import allTodo from './screens/ListAllTodo'
 import onBoarding from './screens/OnboardingScreen'
 import drawer from './screens/DrawerScreen'
@@ -44,10 +43,6 @@ function Root() {
       
     >
       {props => <Todo {...props} drawerRef={this._ref} />}
-    </Stack.Screen>
-    <Stack.Screen name={Names.update}
-      component={updateTodo}
-    >
     </Stack.Screen>
     <Stack.Screen name={Names.allTodo}
       component={allTodo}
