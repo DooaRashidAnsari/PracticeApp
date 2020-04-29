@@ -31,7 +31,7 @@ const String = {
     listAllTodo:'List Of All To Do',
     enterUserName:'*Please enter username',
     enterPassword:'*Please enter password',
-    enterWork:'*Please enter work',
+    enterWork:'Enter work',
     termsConditions:'Do you agree to our terms and conditions',
     selectImage:'Select Image',
     male:'Male',
@@ -45,6 +45,7 @@ const String = {
     ok:'Ok',
     deleteSure:'Are you sure you want to delete ?',
     confirm:'Confirm',
+    work:'Work'
     
 }
 

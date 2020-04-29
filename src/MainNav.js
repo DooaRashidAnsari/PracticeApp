@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import Splash from './screens/Splash'
+import Splash from './screens/SplashScreen'
 import Login from './screens/LoginScreen'
 import SignUp from './screens/SignUp'
 import Todo from './screens/Todo'

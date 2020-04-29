@@ -1,15 +1,14 @@
 import React from 'react'
 import { Image, View, Text, Animated, Easing } from "react-native";
-import styles from './styles.js'
+import styles from './styles/SplashSt.js'
 import strings from '../resources/Strings'
-import Database from '../Database';
-import Names from '../screens/names'
-import { StackActions, NavigationActions } from '@react-navigation/native';
-const db = new Database();
-import Session from '../Session'
-const session = new Session()
+import Names from './names'
+import { StackActions } from '@react-navigation/native';
+import { connect } from 'react-redux'
+import {mapStateToProps,mapDispatchToProps} from '../actions/SplashActions'
 
-export default class Splash extends React.Component {
+
+class SplashScreen extends React.Component {
   constructor() {
     super()
     this.spinValue = new Animated.Value(0)
@@ -73,20 +72,8 @@ export default class Splash extends React.Component {
 
 
   componentDidMount() {
-    db.initDB()
     this.animate(this.props)
-    session.isOnBoardingShown().then(isShown => {
-      console.log('onboarding value')
-      console.log(isShown)
-      this.setState({ isOnboarding: isShown })
-      session.getUserId().then(result => {
-        console.log('getting userid')
-        console.log(result + '')
-        this.setState({ userId: result + '' })
-      })
-
-    })
-
+    this.props.setInitialStates()
   }
 
   animate(props) {
@@ -111,11 +98,9 @@ export default class Splash extends React.Component {
       createAnimation(this.animatedValue3, 1000, Easing.ease, 2000)
     ]).start(() => {
       setTimeout(() => {
-        if (!this.state.isOnboarding) {
-          console.log('onboarding shown')
+        if (!this.props.isOnboarding) {
           this.props.navigation.dispatch(StackActions.replace(Names.onBoarding));
-        } else if (this.state.userId == 'none') {
-          console.log('user id')
+        } else if (this.props.userId == 'none') {
           this.props.navigation.dispatch(StackActions.replace(Names.login));
 
         }
@@ -141,3 +126,4 @@ export default class Splash extends React.Component {
     ).start(() => this.spin())
   }
 }
+export default connect(mapStateToProps,mapDispatchToProps)(SplashScreen)

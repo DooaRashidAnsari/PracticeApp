@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Text, View, TextInput, Button, FlatList } from 'react-native';
-import styles from './TodoSt.js'
+import styles from './styles/ListAllTodoSt'
 import strings from '../resources/Strings'
 import Database from '../Database';
 import Colors from '../resources/Colors'

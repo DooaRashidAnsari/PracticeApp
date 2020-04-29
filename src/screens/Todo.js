@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Text, View, TextInput, Button, FlatList } from 'react-native';
-import styles from './TodoSt.js'
+import { Text, View, FlatList } from 'react-native';
+import styles from './styles/TodoSt.js'
 import strings from '../resources/Strings'
-import Database from '../Database';
 import Colors from '../resources/Colors'
 import InputField from '../components/InputField.js'
 import CustomButton from '../components/CustomButton.js';
@@ -10,17 +9,10 @@ import Sizes from '../resources/Sizes.js';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import Header from '../components/Header.js';
 import { ScrollView } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-community/async-storage';
-import Session from '../Session'
-import PropTypes, { array } from 'prop-types';
+import PropTypes from 'prop-types';
 import { mapStateToProps, mapDispatchToProps } from '../actions/TodoActions'
 import Constants from '../constants/ReducersCN'
 import { connect } from 'react-redux'
-
-
-
-const db = new Database();
-const session = new Session()
 
 class Todo extends React.Component {
 
@@ -28,7 +20,6 @@ class Todo extends React.Component {
     drawerRef: PropTypes.object
 
   }
-
 
   getItem() {
     return ({ item }) =>
@@ -38,9 +29,8 @@ class Todo extends React.Component {
             onPress={this.getListViewItem.bind(this, item)}>{item.work}</Text>
           <FontAwesomeIcon icon='eye' size={Sizes.General.fontAwsomeLarge} style={styles.iconStyle}
             onPress={() => {
-              console.log('called eye')
               item.isDescView = !item.isDescView
-              this.props.setValue(Constants.RD_TODO.REFRESH,!this.props.refresh)
+              this.props.setValue(Constants.RD_TODO.REFRESH, !this.props.refresh)
             }}
 
           />
@@ -93,13 +83,13 @@ class Todo extends React.Component {
               <View style={styles.innerListInput}>
                 <InputField
                   isError={this.props.isWork}
-                  errorMessage={strings.enterWork}
+                  errorMessage={this.props.msgTodo}
                   placeHolderText={strings.enterWork}
                   value={this.props.work}
                   style={styles.inputWork}
                   icon='list'
                   keyboardType='text'
-                  onChangeText={(value) => this.props.setValue(Constants.RD_TODO.WORK,value)}
+                  onChangeText={(value) => this.props.setValue(Constants.RD_TODO.WORK, value)}
 
                 ></InputField>
 
@@ -110,7 +100,7 @@ class Todo extends React.Component {
                   style={styles.inputDesc}
                   icon='info'
                   keyboardType='text'
-                  onChangeText={(value) => this.props.setValue(Constants.RD_TODO.DESC,value)}
+                  onChangeText={(value) => this.props.setValue(Constants.RD_TODO.DESC, value)}
                   multiline={true}
                 ></InputField>
 
@@ -151,79 +141,40 @@ class Todo extends React.Component {
   }
 
   getListViewItem = (item) => {
-    db.updateWorkDone(item.key).then(result => {
-      this.listTodo()
-    })
-
-  }
-
-  updateItem = (item) => {
-    console.log('printing key')
-    console.log(item.key)
-    console.log(strings.update)
-    this.props.setUpdatValues(item.work, item.desc, strings.update, item.key)
-  }
-
-  deleteItem = (item) => {
-    db.deleteWork(item.key).then(result => {
-      this.listTodo()
-    })
-  }
-
-  listTodo() {
-    db.listWorksToday(this.props.userId).then(result => {
+    this.props.updateWorkDone(this.props.userId, item, () => {
       this.props.setValue(Constants.RD_TODO.DATA, result)
     })
   }
 
-  componentDidMount() {
-    console.log('Drawer ref')
-    console.log(this.props.drawerRef)
+  updateItem = (item) => {
+    this.props.setUpdatValues(item.work, item.desc, strings.update, item.key)
+  }
 
-    session.getUserId().then(result => {
-      console.log('getting userid')
-      console.log(result + '')
-      this.props.setValue(Constants.RD_TODO.USER_ID, result)
-      this.listTodo()
-    })
+  deleteItem = (item) => {
+    this.props.deleteItem(this.props.userId, item.key)
+
+  }
+
+  componentDidMount() {
+    this.props.listTodos(this.props.userId)
     this.props.drawerRef.updateComponent()
   }
 
   saveTodo() {
-    if (this.props.work == '') {
-      this.props.setValue(Constants.RD_TODO.IS_WORK, false)
-
-
-    } else {
-      this.props.setValue(Constants.RD_TODO.IS_WORK, true)
-
-      if (this.props.isUpdate) {
-        db.updateWork(this.props.updateId, this.props.work, this.props.desc).then(result => {
-          this.props.setIsUpdateState(strings.save)
-          console.log('inside listing update')
-          this.listTodo()
-        })
-      } else {
-        console.log('inserting')
-        db.insertWork(this.props.work, this.props.desc, this.props.userId).then(result => {
-          console.log('inside listing')
-          this.listTodo()
-
-
-        })
+    this.props.validateData(this.props.work, strings.work, () => {
+      if (this.props.msgTodo == null) {
+        if (this.props.isUpdate) {
+          this.props.updateWork(this.props.updateId, this.props.work, this.props.desc,strings.save, this.props.userId)
+        } else {
+          this.props.insertWork(this.props.work, this.props.desc, this.props.userId)
+        }
       }
-
-    }
-
+    })
   }
 
   cancel() {
     this.props.setCancelValues(strings.save)
-    
-
   }
-
-
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo)
