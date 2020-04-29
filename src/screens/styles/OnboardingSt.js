@@ -1,7 +1,4 @@
 import { StyleSheet } from 'react-native'
-import Sizes from '../resources/Sizes'
-import Colors from '../resources/Colors'
-import stylegeneral from '../screens/generalstyle'
 
 const style = StyleSheet.create({
     imageStyle: {

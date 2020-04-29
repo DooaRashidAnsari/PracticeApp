@@ -1,31 +1,21 @@
 import * as React from 'react';
-import { Text, View, Image } from 'react-native';
-import styles from './OnboardingSt'
+import { Image } from 'react-native';
+import styles from './styles/OnboardingSt'
 import strings from '../resources/Strings'
 import Colors from '../resources/Colors'
-import Session from '../Session'
-const session = new Session()
 import Onboarding from 'react-native-onboarding-swiper';
 import { StackActions } from '@react-navigation/native';
 import Names from '../screens/names'
-
-
-
+import { connect } from 'react-redux'
+import { mapStateToProps, mapDispatchToProps } from '../actions/OnboardingActions'
 
 export default class OnboardingScreen extends React.Component {
     componentDidMount() {
-        session.setOnBoardingShown().then(() => { 
-            session.getUserId().then(result => {
-                console.log('getting userid')
-                console.log(result + '')
-                this.setState({ userId: result + '' })
-              })
-        })
+        this.props.setOnboarding()
     }
 
     moveNext() {
-        if (this.state.userId == 'none') {
-            console.log('user id')
+        if (this.props.userId == 'none') {
             this.props.navigation.dispatch(StackActions.replace(Names.login));
         }
         else
@@ -48,14 +38,14 @@ export default class OnboardingScreen extends React.Component {
                         backgroundColor: Colors.onBoardColor2,
                         image: <Image style={styles.imageStyleFull} source={require('../resources/main.jpg')} />,
                         title: 'List Screen',
-                        
+
                     },
                     {
                         backgroundColor: Colors.onBoardColor3,
                         image: <Image style={styles.imageStyleHalf} source={require('../resources/menu.jpg')} />,
                         title: 'Menu',
                         subtitle: "This is main menu screen use it edit your preferences",
-                    },{
+                    }, {
                         backgroundColor: Colors.onBoardColor4,
                         image: <Image style={styles.imageStyle} source={require('../resources/all.jpg')} />,
                         title: 'Start Using',
@@ -69,3 +59,4 @@ export default class OnboardingScreen extends React.Component {
 
 
 }
+export default connect(mapStateToProps, mapDispatchToProps)(OnboardingScreen)

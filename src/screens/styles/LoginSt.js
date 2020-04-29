@@ -1,7 +1,7 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Sizes from '../../resources/Sizes'
 import Colors from '../../resources/Colors'
-import stylegeneral from '../generalstyle'
+import stylegeneral from '../styles/GeneralSt'
 
 
 const style = EStyleSheet.create({

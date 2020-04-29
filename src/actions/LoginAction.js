@@ -1,12 +1,10 @@
 import Constant from '../constants/ReducersCN'
 import Validations from '../helpers/Validations'
 import ValidationCN from '../constants/ValidationCN'
-import Database from '../Database';
 import { StackActions } from '@react-navigation/native';
 import Names from '../screens/names'
 
 const validations = new Validations()
-const db = new Database();
 
 
 export function mapStateToProps(state) {
