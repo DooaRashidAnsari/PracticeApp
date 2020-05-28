@@ -4,57 +4,27 @@ import {
     Text,
     TouchableOpacity,
 } from 'react-native';
-import styles from './CustomDrawerSt.js'
+import styles from './styles/CustomDrawerSt.js'
 import strings from '../resources/Strings'
-import Colors from '../resources/Colors'
-import PropTypes from 'prop-types';
-import Session from '../Session'
 import names from '../screens/names'
-import Database from '../Database';
-import { StackActions } from '@react-navigation/native';
 import { Avatar } from 'react-native-elements'
-import { DrawerActions } from '@react-navigation/native';
-import { NavigationActions } from '@react-navigation/native';
 import DeleteConfirm from './DeleteConfirm.js';
 import * as RootNavigation from '../RootNavigation';
+import { connect } from 'react-redux'
+import { mapStateToProps, mapDispatchToProps } from '../actions/ComponentDrawerActions'
 
-const session = new Session()
-const db = new Database();
-
-export default class CustomDrawerContent extends Component {
-    constructor(props) {
-        super(props)
-        this.state = { isVisible: false, fileUri: '', username: 'User Name' }
-    }
-
-    static propsType = {
-        navigation: PropTypes.navigation
-    }
+class CustomDrawerContent extends Component {
 
     componentDidMount() {
-        //setNavigation()
+        this.props.setDrawerRef(this)
         this.updateComponent()
 
     }
 
     updateComponent() {
-        session.getUserId().then(result => {
-            console.log('getting userid in custom drawer screen')
-            console.log(result + '')
-            this.setState({ userId: result + '' })
-            db.getUser(result).then(result => {
-                console.log(result)
-                this.setState({
-                    username: result.Name,
-                    fileUri: result.Picture
-                })
-
-
-            })
-        })
+        this.props.getUserData(this.props.userId)
     }
     render() {
-        //console.log('render called')
         return (
             <View style={styles.mainView}
             >
@@ -64,15 +34,15 @@ export default class CustomDrawerContent extends Component {
                         size='medium'
                         onPress={this.chooseImage}
                         rounded
-                        source={{ uri: this.state.fileUri }}
+                        source={{ uri: this.props.picture }}
                     />
 
                 </View>
-                <Text style={styles.smallText}>{this.state.username}</Text>
+                <Text style={{ marginBottom: '5%' }, styles.smallText}>{this.props.username}</Text>
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={[
-                        styles.opacityView
+                        styles.opacityView, { marginTop: '0.1%' }
                     ]}
                 >
                     <Text style={styles.textInput} onPress={this.editUser.bind(this)}>{strings.editUser}</Text>
@@ -80,7 +50,7 @@ export default class CustomDrawerContent extends Component {
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={[
-                        styles.opacityView
+                        styles.opacityView, { marginTop: '0.1%' }
                     ]}
                 >
                     <Text style={styles.textInput} onPress={this.listAll.bind(this)}>{strings.listAll}</Text>
@@ -88,7 +58,7 @@ export default class CustomDrawerContent extends Component {
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={[
-                        styles.opacityView
+                        styles.opacityView, { marginTop: '0.1%' }
                     ]}
                 >
                     <Text style={styles.textInput} onPress={this.showDialog.bind(this)}>{strings.deleteAll}</Text>
@@ -96,7 +66,7 @@ export default class CustomDrawerContent extends Component {
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={[
-                        styles.opacityView
+                        styles.opacityView, { marginTop: '0.1%' }
                     ]}
                 >
                     <Text style={styles.textInput} onPress={this.clearCache.bind(this)}>{strings.clearCache}</Text>
@@ -104,7 +74,7 @@ export default class CustomDrawerContent extends Component {
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={[
-                        styles.opacityView
+                        styles.opacityView, { marginTop: '0.1%' }
                     ]}
                 >
                     <Text style={styles.textInput} onPress={this.removeUserId.bind(this)}>{strings.logout}</Text>
@@ -113,16 +83,16 @@ export default class CustomDrawerContent extends Component {
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={[
-                        styles.opacityView
+                        styles.opacityView, { marginTop: '0.1%' }
                     ]}
                 >
                     <Text style={styles.textInput} onPress={this.syncData.bind(this)}>{strings.syncData}</Text>
                 </TouchableOpacity>
 
-                <DeleteConfirm isVisible={this.state.isVisible}
-                    leftFunc={() => { this.setState({ isVisible: false }) }}
+                <DeleteConfirm isVisible={this.props.isVisible}
+                    leftFunc={() => { this.props.setDialogVisible(false) }}
                     rightFunc={() => {
-                        this.setState({ isVisible: false })
+                        this.props.setDialogVisible(false)
                         this.deleteAllTodo()
 
                     }}
@@ -144,21 +114,20 @@ export default class CustomDrawerContent extends Component {
 
     showDialog() {
         this.closeNavigation()
-        this.setState({ isVisible: true })
+        this.props.setDialogVisible(true)
+
     }
     deleteAllTodo() {
         this.closeNavigation()
-        console.log('calling delete all')
-        db.deleteAll(this.state.userId).then(result => {
+        this.props.deletAll(this.props.userId, () => {
             RootNavigation.replace(names.todo)
-            //this.props.clearList()           
         })
+
     }
 
     removeUserId() {
         this.closeNavigation()
-
-        session.deleteSession().then(result => {
+        this.props.deleteSession(() => {
             if (result)
                 RootNavigation.replace(names.login)
 
@@ -167,36 +136,21 @@ export default class CustomDrawerContent extends Component {
     }
 
     editUser() {
+        console.log('inside edit user')
         this.closeNavigation()
         RootNavigation.replace(names.signUp, { isEdit: true })
-
-        //const navigation = useNavigation();
-
-        //console.log('navigating to signup edit')
-        // navigation.dispatch(StackActions.push(names.signUp, { isEdit: true }));
-
     }
 
 
     clearCache() {
         this.closeNavigation()
+        this.props.deleteSession(() => { RootNavigation.replace(names.login) })
 
-        session.deleteSession().then(result => {
-            db.deleteAllTodays(this.state.userId).then(result => {
-                if (result)
-                    RootNavigation.replace(names.login)
-
-            })
-
-
-        })
     }
 
     listAll() {
         this.closeNavigation()
         RootNavigation.navigate(names.allTodo)
-
-        //this.props.navigation.navigate(names.allTodo)
     }
 
 
@@ -204,7 +158,6 @@ export default class CustomDrawerContent extends Component {
         this.closeNavigation()
         RootNavigation.navigate(names.syncData)
     }
-
-
-
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomDrawerContent)

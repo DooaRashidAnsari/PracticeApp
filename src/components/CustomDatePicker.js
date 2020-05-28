@@ -1,15 +1,11 @@
 import React, { Component, useState } from 'react';
 import {
     View,
-    Picker,
     TouchableOpacity, Text
 } from 'react-native';
-import styles from './CustomPickerSt.js'
+import styles from './styles/CustomDatePickerSt.js'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import strings from '../resources/Strings'
-import Colors from '../resources/Colors'
-import PropTypes, { array } from 'prop-types';
-import PickerDialog from './PickerDialog.js';
+import PropTypes from 'prop-types';
 import Sizes from '../resources/Sizes.js';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Moment from 'moment';
@@ -35,7 +31,12 @@ export default class CustomDatePicker extends Component {
     render() {
         return (
             <View style={[styles.mainView, this.props.style]}>
-                <FontAwesomeIcon icon={this.props.icon} style={styles.iconStyle} />
+                <FontAwesomeIcon icon={this.props.icon} style={[styles.iconStyle, {
+                    marginLeft: '5%', marginTop: '5%',
+                    marginRight: '4%',marginBottom: '5%',
+    
+
+                }]} />
                 <TouchableOpacity
                     style={styles.touchableStyle}
                     activeOpacity={Sizes.activeOpacity}

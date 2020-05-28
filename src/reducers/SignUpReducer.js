@@ -34,8 +34,10 @@ const SignUpReducer = (state = initialState, action) => {
         case Constants.RD_SIGNUP.IS_FEMALE: return { ...state, isFemale: action.payload }
         case Constants.RD_SIGNUP.IS_MALE: return { ...state, isMale: action.payload }
         case Constants.RD_SIGNUP.BIRTHDAY: return { ...state, birthday: action.payload }
+        
         case Constants.RD_SIGNUP.COUNTRY: return { ...state, country: action.payload }
-        case Constants.RD_SIGNUP.PICTURE: return { ...state, country: action.payload }
+        case Constants.RD_SIGNUP.PICTURE: return { ...state, picture: action.payload }
+        
         case Constants.RD_SIGNUP.COUNTRY_DATA: return { ...state, countryData: action.payload }
         case Constants.RD_SIGNUP.TERMS_CHECKED : return { ...state, termsCheck: action.payload }
         

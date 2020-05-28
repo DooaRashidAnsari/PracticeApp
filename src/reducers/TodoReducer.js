@@ -3,7 +3,7 @@ import strings from '../resources/Strings'
 
 const initialState = {
     work: '', desc: '', userId: '', data: [], isWork: true, isDesc: true, isUpdate: false
-    , updateId: '', buttonText:strings.save, refresh: false,msgTodo:''
+    , updateId: '', buttonText:strings.save, refresh: false,msgTodo:'',drawerRef:null
 };
 
 const todoReducer = (state = initialState, action) => {

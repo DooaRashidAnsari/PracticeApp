@@ -17,15 +17,15 @@ class ListAllTodo extends React.Component {
                 <View style={styles.innerList}>
                     <Text style={styles.itemTextStyle}
                     >{item.work}</Text>
-                    <Text style={styles.itemTextStyleDesc}
+                    <Text style={[styles.itemTextStyleDesc,{marginLeft:'5%'}]}
                     >{strings.date}{item.date}</Text>
 
                 </View>
                 <View>
-                    <Text style={styles.itemTextStyleDesc}>
+                    <Text style={[styles.itemTextStyleDesc,{marginLeft:'5%'}]}>
                         {strings.description}
                     </Text>
-                    <Text style={styles.itemTextStyleDescFull}>
+                    <Text style={[styles.itemTextStyleDescFull,{marginLeft:'5%'}]}>
                         {item.desc}
                     </Text>
                 </View>

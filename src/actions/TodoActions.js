@@ -9,7 +9,7 @@ const validations = new Validations()
 const repo = new TodoRepo()
 export function mapStateToProps(state) {
     return {
-        isWork: state.todoReducer.isWork, isDesc: state.todoReducer.isDesc, userId: state.todoReducer.userId
+        drawerRef:state.globalActionsReducer.drawerRef, isWork: state.todoReducer.isWork, isDesc: state.todoReducer.isDesc, userId: state.todoReducer.userId
         , data: state.todoReducer.data, work: state.todoReducer.work
         , desc: state.todoReducer.desc, isUpdate: state.todoReducer.isUpdate, updateId: state.todoReducer.updateId
         , buttonText: state.todoReducer.buttonText

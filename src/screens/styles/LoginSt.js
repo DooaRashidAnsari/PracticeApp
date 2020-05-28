@@ -18,17 +18,13 @@ const style = EStyleSheet.create({
   bottomText: {
     fontSize: Sizes.Font.dSmall,
     color: Colors.headerColor,
-    marginTop: Sizes.Margin.large,
     textDecorationLine: 'underline'
   },
   textHeading: {
-    fontSize: Sizes.Font.heading,
+    fontSize: Sizes.Font.headingFont,
     fontWeight:'bold',
     color: Colors.headerColor
-    , marginTop: Sizes.Margin.large,
-    marginBottom: Sizes.Margin.large
-
-  },
+   },
 
   buttonStyle: {
     width: '90%'

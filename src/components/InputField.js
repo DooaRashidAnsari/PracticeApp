@@ -4,7 +4,7 @@ import {
     View,
     TextInput
 } from 'react-native';
-import styles from './inputFieldSt.js'
+import styles from './styles/inputFieldSt.js'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import strings from '../resources/Strings'
 import Colors from '../resources/Colors'
@@ -16,7 +16,7 @@ import { connect } from 'react-redux'
 class InputField extends Component {
     constructor(props) {
         super(props)
-        
+
     }
 
     static propsType = {
@@ -28,7 +28,7 @@ class InputField extends Component {
         value: PropTypes.string,
         isError: PropTypes.bool,
         errorMessage: PropTypes.string,
-        multiline:PropTypes.bool
+        multiline: PropTypes.bool
     }
 
 
@@ -37,7 +37,10 @@ class InputField extends Component {
         return (
             <View style={{ flexDirection: 'column' }}>
                 <View style={[styles.mainView, this.props.style]}>
-                    <FontAwesomeIcon icon={this.props.icon} style={styles.iconStyle} />
+                    <FontAwesomeIcon icon={this.props.icon} style={[styles.iconStyle, {
+                        marginLeft: '5%', marginTop: '5%',
+                        marginRight: '4%', marginBottom: '5%',
+                    }]} />
 
                     <TextInput keyboardType={this.props.keyboardType}
                         secureTextEntry={this.props.keyboardType == 'password'}
@@ -46,7 +49,7 @@ class InputField extends Component {
                         style={styles.textInput}
                         onChangeText={this.props.onChangeText}
                         value={this.props.value}
-                        multiline = {this.props.multiline}
+                        multiline={this.props.multiline}
 
                     ></TextInput>
 
@@ -65,16 +68,16 @@ class InputField extends Component {
 }
 
 function mapStateToProps(state) {
-    return {  }
+    return {}
 }
 
 
 function mapDispatchToProps(dispatch) {
     return {
-        
+
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(InputField)
+export default connect(mapStateToProps, mapDispatchToProps)(InputField)
 
 

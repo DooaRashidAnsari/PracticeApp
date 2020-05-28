@@ -22,7 +22,7 @@ class Login extends Component {
     render() {
 
         return (<View style={styles.container}>
-            <Text style={styles.textHeading}>
+            <Text style={[styles.textHeading,{marginTop:'15%',marginBottom:'15%'}]}>
                 {strings.login}
             </Text>
             <InputField
@@ -34,7 +34,6 @@ class Login extends Component {
                 onChangeText={(value) => this.props.setUserName(value)}
 
             ></InputField>
-
             <InputField
                 isError={this.props.isPasswordValid}
                 errorMessage={this.props.msg_password}
@@ -45,13 +44,12 @@ class Login extends Component {
                 onChangeText={(value) => this.props.setPassword(value)}
 
             ></InputField>
-
             <CustomButton
                 style={styles.buttonSave}
                 text={strings.login}
                 onPress={this.loginUser.bind(this)}
             />
-            <Text style={styles.bottomText}
+            <Text style={[styles.bottomText,{marginTop:'2%'}]}
                 onPress={() => this.props.navigation.navigate(Names.signUp, { isEdit: false })}
             >
                 {strings.signupMessage}

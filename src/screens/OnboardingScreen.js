@@ -9,7 +9,7 @@ import Names from '../screens/names'
 import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from '../actions/OnboardingActions'
 
-export default class OnboardingScreen extends React.Component {
+class OnboardingScreen extends React.Component {
     componentDidMount() {
         this.props.setOnboarding()
     }
@@ -37,26 +37,23 @@ export default class OnboardingScreen extends React.Component {
                     {
                         backgroundColor: Colors.onBoardColor2,
                         image: <Image style={styles.imageStyleFull} source={require('../resources/main.jpg')} />,
-                        title: 'List Screen',
+                        title: strings.listScreen,
 
                     },
                     {
                         backgroundColor: Colors.onBoardColor3,
                         image: <Image style={styles.imageStyleHalf} source={require('../resources/menu.jpg')} />,
-                        title: 'Menu',
-                        subtitle: "This is main menu screen use it edit your preferences",
+                        title: strings.menu,
+                        subtitle: strings.menuDesc,
                     }, {
                         backgroundColor: Colors.onBoardColor4,
                         image: <Image style={styles.imageStyle} source={require('../resources/all.jpg')} />,
-                        title: 'Start Using',
-                        subtitle: "Isn't it Beautiful App! Proceed to start using",
+                        title: strings.startUsing,
+                        subtitle: strings.startUsingDesc,
                     }
                 ]}
             />
         )
     }
-
-
-
 }
 export default connect(mapStateToProps, mapDispatchToProps)(OnboardingScreen)

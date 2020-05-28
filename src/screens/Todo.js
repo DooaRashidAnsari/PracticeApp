@@ -9,18 +9,13 @@ import Sizes from '../resources/Sizes.js';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import Header from '../components/Header.js';
 import { ScrollView } from 'react-native-gesture-handler';
-import PropTypes from 'prop-types';
 import { mapStateToProps, mapDispatchToProps } from '../actions/TodoActions'
 import Constants from '../constants/ReducersCN'
 import { connect } from 'react-redux'
 
 class Todo extends React.Component {
 
-  static propsType = {
-    drawerRef: PropTypes.object
-
-  }
-
+  
   getItem() {
     return ({ item }) =>
       <View style={item.isDone ? styles.itemStyleDone : styles.itemStyle}>

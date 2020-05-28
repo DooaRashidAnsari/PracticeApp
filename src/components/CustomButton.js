@@ -3,9 +3,7 @@ import {
     Text,
     TouchableOpacity,
 } from 'react-native';
-import styles from './CustomButtonSt.js'
-import strings from '../resources/Strings'
-import Colors from '../resources/Colors'
+import styles from './styles/CustomButtonSt.js'
 import PropTypes from 'prop-types';
 
 

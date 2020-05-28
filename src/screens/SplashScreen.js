@@ -1,68 +1,50 @@
 import React from 'react'
-import { Image, View, Text, Animated, Easing } from "react-native";
+import { Image, View, Text, Animated, Easing, NativeModules } from "react-native";
 import styles from './styles/SplashSt.js'
 import strings from '../resources/Strings'
 import Names from './names'
 import { StackActions } from '@react-navigation/native';
 import { connect } from 'react-redux'
-import {mapStateToProps,mapDispatchToProps} from '../actions/SplashActions'
+import { mapStateToProps, mapDispatchToProps } from '../actions/SplashActions'
+import Animations from '../helpers/Animations'
 
-
+const animations = new Animations()
+const { AppNativeModule } = NativeModules;
 class SplashScreen extends React.Component {
+  animationsTransform = []
+  transforms = []
+
+
   constructor() {
     super()
     this.spinValue = new Animated.Value(0)
-    this.animatedValue1 = new Animated.Value(0)
-    this.animatedValue2 = new Animated.Value(0)
-    this.animatedValue3 = new Animated.Value(0)
   }
 
   render() {
-    const scaleText = this.animatedValue1.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0.5, 2]
-    })
-    const scaleText2 = this.animatedValue2.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0.5, 1.5]
-    })
-    const introButton = this.animatedValue3.interpolate({
-      inputRange: [0, 1],
-      outputRange: [-100, 100]
-    })
-    const spin = this.spinValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['0deg', '360deg']
-    })
-
     return (
       <View style={styles.container}>
         <Image
           source={require('../resources/gradient.jpg')}
           style={styles.logoStyle}
-
         />
 
-        <Animated.View style={{ transform: [{ scale: scaleText }] }}>
+        <Animated.View style={{ transform: [{ scale: this.transforms[0] }] }}>
           <Text style={styles.textHeading}>
             {strings.heading}
           </Text>
 
         </Animated.View>
 
-        <Animated.View style={{ top: introButton, position: 'absolute', transform: [{ scale: scaleText2 }] }}>
+        <Animated.View style={{ top: this.transforms[1], position: 'absolute' }}>
           <Text style={styles.textBottom}>
             {strings.headingBottom}
           </Text>
         </Animated.View>
 
         <Animated.Image
-          style={{
-            width: 227,
-            height: 200,
-            marginTop: 150,
-            transform: [{ rotate: spin }]
-          }}
+          style={[styles.bottomLogoStyle, {
+            transform: [{ rotate: this.transforms[2] }]
+          }]}
           source={{ uri: 'https://s3.amazonaws.com/media-p.slid.es/uploads/alexanderfarennikov/images/1198519/reactjs.png' }}
         />
 
@@ -70,60 +52,51 @@ class SplashScreen extends React.Component {
     )
   }
 
-
-  componentDidMount() {
-    this.animate(this.props)
-    this.props.setInitialStates()
-  }
-
-  animate(props) {
-    this.animatedValue1.setValue(0)
-    this.animatedValue2.setValue(0)
-    this.animatedValue3.setValue(0)
-    const createAnimation = function (value, duration, easing, delay = 0) {
-      return Animated.timing(
-        value,
-        {
-          toValue: 1,
-          duration,
-          useNativeDriver: false,
-          easing,
-          delay
-        }
-      )
-    }
-    Animated.parallel([
-      createAnimation(this.animatedValue1, 2000, Easing.ease),
-      createAnimation(this.animatedValue2, 1000, Easing.ease, 2000),
-      createAnimation(this.animatedValue3, 1000, Easing.ease, 2000)
-    ]).start(() => {
-      setTimeout(() => {
-        if (!this.props.isOnboarding) {
-          this.props.navigation.dispatch(StackActions.replace(Names.onBoarding));
-        } else if (this.props.userId == 'none') {
-          this.props.navigation.dispatch(StackActions.replace(Names.login));
-
-        }
-        else {
-          this.props.navigation.dispatch(StackActions.replace(Names.todo));
-
-        }
-   
-      }, 4000)
-    })
-    this.spin()
-  }
-
-  spin() {
-    this.spinValue.setValue(0)
-    Animated.timing(
-      this.spinValue,
+  componentWillMount() {
+    this.animationsTransform = animations.getMultipleAnimations([
       {
-        toValue: 1,
-        duration: 4000,
-        easing: Easing.linear
+        easing: Easing.ease, duration: 2000, delay: 0, inputRange: [0, 1], outputRange: [0.5, 2]
+      },
+      {
+        easing: Easing.ease, duration: 1000, delay: 2000, inputRange: [0, 1], outputRange: [-100, 100]
+      },
+      {
+        easing: Easing.ease, duration: 1000, delay: 2000, inputRange: [0, 1], outputRange: ['0deg', '360deg']
       }
-    ).start(() => this.spin())
+    ])
+    this.transforms = this.animationsTransform.transforms
+
   }
+  componentDidMount() {
+    this.animate()
+    this.props.setInitialStates()
+
+    AppNativeModule.greetUser(
+      "Dooa Ansari",
+      true,
+      (result) => {
+        console.log(result)
+      }
+    );
+
+  }
+
+  animate() {
+    animations.startParallelAnimations(this.navigate.bind(this), this.animationsTransform.animations)
+  }
+
+  navigate() {
+    if (!this.props.isOnboarding) {
+      this.props.navigation.dispatch(StackActions.replace(Names.onBoarding));
+    } else if (this.props.userId == 'none') {
+      this.props.navigation.dispatch(StackActions.replace(Names.login));
+    }
+    else {
+      this.props.navigation.dispatch(StackActions.replace(Names.todo));
+
+    }
+  }
+
+
 }
-export default connect(mapStateToProps,mapDispatchToProps)(SplashScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen)

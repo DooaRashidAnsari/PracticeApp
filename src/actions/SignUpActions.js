@@ -29,12 +29,15 @@ export function mapDispatchToProps(dispatch) {
         setIsEdit: (value) => dispatch({ type: Constant.RD_SIGNUP.IS_EDIT, payload: value }),
         getUserData: (userId) => {
             repo.getUserData(userId).then(result => {
-                dispatch({ type: Constants.RD_SIGNUP.USERNAME, payload: result.Name })
+                console.log(result)
+                dispatch({ type: Constant.RD_SIGNUP.USERNAME, payload: result.Name })
                 dispatch({ type: Constant.RD_SIGNUP.COUNTRY, payload: result.Country })
-                dispatch({ type: Constants.RD_SIGNUP.IS_FEMALE, payload: result.Gender == 'Female' ? true : false })
-                dispatch({ type: Constants.RD_SIGNUP.IS_MALE, payload: result.Gender == 'Male' ? true : false })
-                dispatch({ type: Constants.RD_SIGNUP.BIRTHDAY, payload: result.Birthday })
-                dispatch({ type: Constants.RD_SIGNUP.PICTURE, payload: result.Picture })
+                
+                dispatch({ type: Constant.RD_SIGNUP.IS_FEMALE, payload: result.Gender == 'Female' ? true : false })
+                dispatch({ type: Constant.RD_SIGNUP.IS_MALE, payload: result.Gender == 'Male' ? true : false })
+                dispatch({ type: Constant.RD_SIGNUP.BIRTHDAY, payload: result.Birthday })
+                
+                dispatch({ type: Constant.RD_SIGNUP.PICTURE, payload: result.Picture })
 
             })
         },
@@ -42,8 +45,8 @@ export function mapDispatchToProps(dispatch) {
             dispatch({ type: Constant.RD_SIGNUP.IS_EDIT, payload: value })
         },
         setUserName: (value) => dispatch({ type: Constant.RD_SIGNUP.USERNAME, payload: value }),
-        setTermsCheck: (value) => dispatch({ type: Constants.RD_SIGNUP.TERMS_CHECKED, payload: value }),
-        setDialogVisible: (value) => dispatch({ type: Constants.RD_SIGNUP.IS_VISIBLE, payload: value }),
+        setTermsCheck: (value) => dispatch({ type: Constant.RD_SIGNUP.TERMS_CHECKED, payload: value }),
+        setDialogVisible: (value) => dispatch({ type: Constant.RD_SIGNUP.IS_VISIBLE, payload: value }),
         setPassword: (value) => dispatch({ type: Constant.RD_SIGNUP.PASSWORD, payload: value }),
         setRadioData: (valueIsFemale, valueIsMale) => {
             dispatch({ type: Constant.RD_SIGNUP.IS_FEMALE, payload: valueIsFemale })
@@ -79,19 +82,10 @@ export function mapDispatchToProps(dispatch) {
 
 
         },
-        loginUser: (username, password, navigation) => {
-            db.searchUser(username, password, (isFound, userId) => {
-                if (isFound) {
-                    navigation.dispatch(StackActions.replace(Names.todo));
-                }
-                else Alert.alert(strings.userNotExist);
-
-            })
-        },
         updateUser: (username, country, date, gender, picture, userId) => {
             repo.updateUser(username, country, date, gender, picture, userId)
                 .then(result => {
-                    dispatch({ type: Constants.RD_SIGNUP.IS_VISIBLE, payload: true })
+                    dispatch({ type: Constant.RD_SIGNUP.IS_VISIBLE, payload: true })
                 })
 
         },

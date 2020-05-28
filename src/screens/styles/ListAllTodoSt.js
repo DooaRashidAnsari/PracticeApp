@@ -1,45 +1,15 @@
-import { StyleSheet } from 'react-native'
+import EStyleSheet from 'react-native-extended-stylesheet';
 import Sizes from '../../resources/Sizes'
 import Colors from '../../resources/Colors'
 import stylegeneral from '../styles/GeneralSt'
 
-const style = StyleSheet.create({
+const style = EStyleSheet.create({
     container: {
         ...stylegeneral.container,
         justifyContent: 'flex-start'
     },
     topcontainer:{
           ...stylegeneral.topcontainer
-    },
-    textInput: {
-        fontSize: Sizes.Font.medium,
-        color: Colors.textColorSecondary,
-        borderColor: Colors.primaryColor,
-        borderWidth: 1,
-        marginBottom: Sizes.Margin.medium,
-        width: '100%'
-
-    },
-    inputWork: {
-        marginTop: Sizes.Margin.medium
-    },
-
-    inputDesc: {
-        marginTop: Sizes.Margin.medium
-    },
-    buttonUpdate: {
-        flex: 0.5,
-        marginTop: Sizes.Margin.medium,
-        marginBottom:Sizes.Margin.large,
-        alignSelf:'center'
-    },
-    buttonSave: {
-        marginTop: Sizes.Margin.medium,
-        marginBottom:Sizes.Margin.large,
-        alignSelf:'center'
-    },
-    pickerStyle: {
-        marginTop: Sizes.Margin.medium
     },
     listStyle: {
         flex: 0.5,
@@ -52,50 +22,30 @@ const style = StyleSheet.create({
     },
     itemTextStyle: {
         flex: 0.9,
-        fontSize: Sizes.Font.medium,
+        fontSize: Sizes.Font.fontFields,
         color: Colors.white,
-        paddingTop: 3,
-        paddingBottom: 3,
-
-
+        paddingTop: '1%',
+        paddingBottom: '1%',
     },
     itemTextStyleDate: {
         flex: 0.9,
-        fontSize: Sizes.Font.small,
+        fontSize: Sizes.Font.smallFont,
         color: Colors.placeholderColor,
-        paddingTop: 3,
-        paddingBottom: 3,
-
-
+        paddingTop: '1%',
+        paddingBottom: '1%',
     },
     itemTextStyleDesc: {
-        fontSize: Sizes.Font.small,
+        fontSize: Sizes.Font.smallFont,
         color: Colors.buttonColor,
-        paddingTop: 3,
-        marginLeft:12
+        paddingTop: '1%',
+        
     },
     itemTextStyleDescFull: {
-        fontSize: Sizes.Font.medium,
+        fontSize: Sizes.Font.fontFields,
         color: Colors.placeholdeColor,
-        paddingBottom: 3,
-        marginLeft:12
-
-
-    },
+        paddingBottom: '1%',
+     },
     
-    iconStyle: {
-        flex: 0.1,
-        fontSize: 30,
-        color: Colors.fieldColor,
-        marginBottom: Sizes.Margin.medium,
-        marginLeft: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'center',
-        marginTop: 10,
-        flexWrap: 'wrap'
-
-    },
     innerList: {
         flex: 1,
         flexDirection: 'row',
@@ -103,22 +53,7 @@ const style = StyleSheet.create({
         justifyContent: 'center',
 
     },
-    innerListInput: {
-        flex: 0.3,
-        width:'100%'
-    },
-    dividerStyle:{
-        backgroundColor: Colors.textColorSecondary,
-        width: '100%',
-        height: 0.3,
-        marginLeft:12,
-        marginRight:12
-      }
-
-
-
-
-
+    
 }
 )
 

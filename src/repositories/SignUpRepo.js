@@ -8,21 +8,21 @@ export default class SignUpRepo extends BaseRepo {
     }
 
     updateUser = (username,country,date,gender,picture,userId) => {
-        db.updateUser(username, country
+        return this.db.updateUser(username, country
             , date, gender
             , picture, userId
         )
     }
 
     insertUser = (username,country,date,gender,picture,userId) => {
-        db.insertUser(username, country
+        return this.db.insertUser(username, country
             , date, gender
             , picture, userId
         )
     }
 
     saveUser(userId){
-        session.saveUserId(userId)
+        return this.session.saveUserId(userId)
                     
     }
 

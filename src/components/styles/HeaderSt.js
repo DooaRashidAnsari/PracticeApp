@@ -1,24 +1,23 @@
-import { StyleSheet } from 'react-native'
-import Sizes from '../resources/Sizes'
-import Colors from '../resources/Colors'
+import EStyleSheet from 'react-native-extended-stylesheet';
+import Sizes from '../../resources/Sizes'
+import Colors from '../../resources/Colors'
 
-const style = StyleSheet.create({
+const style = EStyleSheet.create({
     mainView: {
         flexDirection: 'row',
         backgroundColor: Colors.headerColor,
         width: '100%',
-        height: 50,
+        height: '7%',
         justifyContent:'center',
         alignItems:'center',
-        marginBottom:Sizes.Margin.medium
+        
 
     },
     textInput: {
         flex:0.9,
-        fontSize: Sizes.Font.medium,
+        fontSize: Sizes.Font.fontFields,
         color: Colors.white,
         fontWeight:'bold',
-        marginLeft:Sizes.Margin.medium
         
     },
     menuStyle: {

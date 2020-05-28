@@ -7,7 +7,6 @@ import SignUp from './screens/SignUpScreen'
 import Todo from './screens/Todo'
 import allTodo from './screens/ListAllTodo'
 import onBoarding from './screens/OnboardingScreen'
-import drawer from './screens/DrawerScreen'
 import syncData from './screens/SyncedTodos'
 import Names from './screens/names'
 import CustomDrawerContent from './components/CustomDrawerContent'
@@ -38,19 +37,15 @@ function Root() {
 
     </Stack.Screen>
     <Stack.Screen name={Names.todo}
-      
+      component={Todo}
     >
-      {props => <Todo {...props} drawerRef={this._ref} />}
+      
     </Stack.Screen>
     <Stack.Screen name={Names.allTodo}
       component={allTodo}
     >
     </Stack.Screen>
 
-    <Stack.Screen name={Names.drawer}
-      component={drawer}
-    >
-    </Stack.Screen>
     <Stack.Screen name={Names.onBoarding}
       component={onBoarding}
     >
@@ -61,10 +56,6 @@ function Root() {
     </Stack.Screen>
 
   </Stack.Navigator>
-}
-_ref = null
-setRef = ref => {
-  this._ref = ref
 }
 
 
@@ -81,7 +72,7 @@ function MainNav() {
       }
       {
         console.log(React.createRef())}
-      <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent ref={this.setRef} />}
+      <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent />}
         headerMode='none'
         initialRouteName="Root" >
         <Drawer.Screen name="Root" component={Root} />

@@ -5,7 +5,10 @@ const Sizes = {
       large:25,
       dMedium:'20rem',
       heading:'4rem',
-      dSmall:'1rem'
+      dSmall:'1rem',
+      fontFields:'1.3rem',
+      smallFont:'1.1rem',
+      headingFont:'4rem'
   },
   Margin:{
       xsmall:5,

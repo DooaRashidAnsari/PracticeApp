@@ -6,11 +6,13 @@ import splashReducer from './SplashReducer'
 import signUpReducer from './SignUpReducer'
 import listAllTodoReducer from './ListAllTodoReducer'
 import onBoardingReducer from './OnboardingReducer'
+import customDrawerReducer from './CustomDrawerReducer'
 
 
 
 const rootReducer = combineReducers({
-  onBoardingReducer,listAllTodoReducer,globalActionsReducer, LoginReducer, todoReducer,splashReducer,signUpReducer
+  onBoardingReducer, listAllTodoReducer, globalActionsReducer, LoginReducer, todoReducer, splashReducer, signUpReducer
+  , customDrawerReducer
 
 });
 export default rootReducer

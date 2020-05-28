@@ -4,7 +4,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import styles from './CustomDropdownSt.js'
+import styles from './styles/CustomDropdownSt.js'
 import strings from '../resources/Strings'
 import Colors from '../resources/Colors'
 import PropTypes from 'prop-types';
@@ -19,25 +19,29 @@ export default class CustomButton extends Component {
     style: PropTypes.style,
     onPress: PropTypes.func,
     data: PropTypes.array,
-    icon : PropTypes.string
+    icon: PropTypes.string
   }
 
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.state = {country:''}
+    this.state = { country: '' }
   }
 
   render() {
-   return (
+    return (
       <View style={[styles.mainView, this.props.style]}>
-        <FontAwesomeIcon icon={this.props.icon} style={styles.iconStyle} />
+        <FontAwesomeIcon icon={this.props.icon} style={[styles.iconStyle, {
+          marginLeft: '5%', marginTop: '5%',
+          marginRight: '4%', marginBottom: '5%',
+        }]} />
         <Dropdown
-          onChangeText = {(value,index,data)=>{
+          onChangeText={(value, index, data) => {
             console.log(value)
-            this.setState({country:value})}}
+            this.setState({ country: value })
+          }}
           inputContainerStyle={{ borderBottomWidth: 0 }}
           dropdownOffset={{ top: 10 }}
-          fontSize={20}
+          fontSize={22}
           labelFontSize={0}
           baseColor={Colors.placeholdeColor}
           textColor={Colors.placeholdeColor}
@@ -55,8 +59,8 @@ export default class CustomButton extends Component {
     );
   }
 
-  getSelectedCountry(){
-    return this.state.country 
+  getSelectedCountry() {
+    return this.state.country
   }
 
 }

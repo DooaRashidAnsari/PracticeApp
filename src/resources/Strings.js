@@ -45,7 +45,12 @@ const String = {
     ok:'Ok',
     deleteSure:'Are you sure you want to delete ?',
     confirm:'Confirm',
-    work:'Work'
+    work:'Work',
+    listScreen:'List Screen',
+    menu:'Menu',
+    menuDesc:'This is main menu screen use it edit your preferences',
+    startUsing:'Start Using',
+    startUsingDesc:'Isn\'t it Beautiful App! Proceed to start using'
     
 }
 

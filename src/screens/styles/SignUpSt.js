@@ -1,37 +1,25 @@
-import { StyleSheet } from 'react-native'
+import EStyleSheet from 'react-native-extended-stylesheet';
 import Sizes from '../../resources/Sizes'
 import Colors from '../../resources/Colors'
 import stylegeneral from '../styles/GeneralSt'
 
-const style = StyleSheet.create({
+const style = EStyleSheet.create({
   container: {
     ...stylegeneral.container
   },
-  textInput: {
-    fontSize: Sizes.Font.medium,
-    color: Colors.textColorSecondary,
-    borderColor: Colors.primaryColor,
-    borderWidth: 1,
-    marginBottom: Sizes.Margin.medium,
-    width: '100%'
-
-  },
   inputPassword: {
-    marginTop: Sizes.Margin.medium,
+    marginTop: '4%',
   },
   buttonSave: {
-    marginTop: Sizes.Margin.medium
+    marginTop: '5%'
   },
   pickerStyle: {
-    marginTop: Sizes.Margin.medium
+    marginTop: '4%'
   },
   textHeading: {
-    fontSize: 40,
+    fontSize: Sizes.Font.headingFont,
     fontWeight: 'bold',
     color: Colors.headerColor
-    , marginTop: Sizes.Margin.large,
-    marginBottom: Sizes.Margin.large
-
   },
   checkboxStyle: {
     width: '100%',

@@ -1,19 +1,19 @@
-import { StyleSheet } from 'react-native'
-import Sizes from '../resources/Sizes'
-import Colors from '../resources/Colors'
+import EStyleSheet from 'react-native-extended-stylesheet';
+import Sizes from '../../resources/Sizes'
+import Colors from '../../resources/Colors'
 
-const style = StyleSheet.create({
+const style = EStyleSheet.create({
     opacityView: {
-        height:45,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: Colors.buttonColor,
         width: '100%',
-        paddingTop: 8,
-        paddingBottom: 8
+        
     },
     textInput: {
-        fontSize: Sizes.Font.medium,
+        paddingTop: '3%',
+        paddingBottom: '3%',
+        fontSize: Sizes.Font.fontFields,
         color: Colors.fieldColor,
         justifyContent: 'center',
         textTransform: 'uppercase',

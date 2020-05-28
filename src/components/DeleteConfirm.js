@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Colors from '../resources/Colors';
-import styles from '../components/DialogSt'
+import styles from './styles/DialogSt'
 import Sizes from '../resources/Sizes';
 
 export default class DeleteConfirm extends Component {
@@ -32,11 +32,11 @@ export default class DeleteConfirm extends Component {
                 width="80%"
                 height="auto"
             >
-                <Text style={styles.dialogWindowText}>{this.props.message}</Text>
-                <View style={styles.mainView}>
+                <Text style={[styles.dialogWindowText,{}]}>{this.props.message}</Text>
+                <View style={[{marginBottom: '5%'},styles.mainView]}>
                     <TouchableOpacity
                         activeOpacity={0.8}
-                        style={[styles.buttonStyle,{marginLeft:Sizes.Margin.small}]}
+                        style={[styles.buttonStyle,{marginLeft:'5%',marginTop:'5%'}]}
                         onPress={this.props.leftFunc}
                     >
                         <Text style={styles.buttonText}>{this.props.buttonTextLeft}</Text>
@@ -44,7 +44,7 @@ export default class DeleteConfirm extends Component {
 
                     <TouchableOpacity
                         activeOpacity={0.8}
-                        style={[styles.buttonStyle,{marginLeft:Sizes.Margin.xsmall,marginRight:Sizes.Margin.small}]}
+                        style={[styles.buttonStyle,{marginLeft:'2%',marginRight:'5%',marginTop:'5%'}]}
                         onPress={this.props.rightFunc}
                     >
                         <Text style={styles.buttonText}>{this.props.buttonTextRight}</Text>
