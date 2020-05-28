@@ -1,7 +1,4 @@
-import React, { Component } from 'react';
-import strings from '../resources/Strings'
-import Constants from '../constants/ValidationCN'
-import { Image, View, Text, Animated, Easing } from "react-native";
+import { Animated} from "react-native";
 
 export default class Animations {
     constructor() {
