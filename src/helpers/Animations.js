@@ -11,8 +11,6 @@ export default class Animations {
         
         for (var params of inputs) {
              var animationTranformation = this.getAnimations(params.easing,params.duration, params.delay, params.inputRange, params.outputRange)
-             console.log("Animated transform");
-             console.log(animationTranformation)
              dataArrAnimations.push(animationTranformation.animation)
              dataArrTransforms.push(animationTranformation.transform)
         }
@@ -27,8 +25,6 @@ export default class Animations {
             inputRange: inputRange,
             outputRange: outputRange
         })
-        console.log("transform")
-        console.log(transform)
         return {
             animation:animation , transform: transform 
         }
